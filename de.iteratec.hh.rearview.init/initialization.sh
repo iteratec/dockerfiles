@@ -6,17 +6,29 @@ LINKED_MYSQL_CONTAINER="rearview-mysql"
 
 RESULT=`mysql -h $LINKED_MYSQL_CONTAINER -uroot -p$MYSQL_ROOT_PASSWORD --skip-column-names -e "SHOW DATABASES LIKE '$MYSQL_DATABASE'"`
 if [ "$RESULT" == "$MYSQL_DATABASE" ]; then
+
     echo "Rearview database already exists -> nothing to do here."
+
 else
-	echo "Rearview database does not exist -> Creating database named $MYSQL_DATABASE."
+
+	echo "Rearview database does not exist -> Creating database named $MYSQL_DATABASE..."
 	Q1="CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE;"
-	mysql -h $LINKED_MYSQL_CONTAINER -uroot -p$MYSQL_ROOT_PASSWORD -e "$Q1"
-	echo "Rearview database does not exist -> Creating database user named $MYSQL_USER and grant access to db."
+	mysql -h $LINKED_MYSQL_CONTAINER -uroot -p$MYSQL_ROOT_PASSWORD -e "$Q1" & PID_DB_CREATION=$!
+	wait $PID_DB_CREATION
+	echo "DONE"
+	
+	echo "Rearview database does not exist -> Creating database user named $MYSQL_USER and grant access to db..."
 	Q2="GRANT ALL ON $MYSQL_DATABASE.* TO '$MYSQL_USER' IDENTIFIED BY '$MYSQL_PASSWORD';"
 	Q3="FLUSH PRIVILEGES;"
-	mysql -h $LINKED_MYSQL_CONTAINER -uroot -p$MYSQL_ROOT_PASSWORD -e "${Q2}${Q3}"
-	echo "Rearview database does not exist -> Import dump."
-	mysql -h $LINKED_MYSQL_CONTAINER -uroot -p$MYSQL_ROOT_PASSWORD $MYSQL_DATABASE < /tmp/mysql-dumps/initial-mysql-dump.sql
+	mysql -h $LINKED_MYSQL_CONTAINER -uroot -p$MYSQL_ROOT_PASSWORD -e "${Q2}${Q3}" & PID_USER_CREATION=$!
+	wait $PID_USER_CREATION
+	echo "DONE"
+
+	echo "Rearview database does not exist -> Import dump..."
+	mysql -h $LINKED_MYSQL_CONTAINER -uroot -p$MYSQL_ROOT_PASSWORD $MYSQL_DATABASE < /tmp/mysql-dumps/initial-mysql-dump.sql & PID_RESTORE_DUMP=$!
+	wait $PID_RESTORE_DUMP
+	echo "DONE"
+
 fi
 
 # set rearview-config
