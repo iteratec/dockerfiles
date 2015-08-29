@@ -28,4 +28,4 @@ sed -i -r 's/db\.default\.user=.+/db.default.user="$MYSQL_USER"/g' /app/conf/com
 echo "set db.default.password to ***"
 sed -i -r 's/db\.default\.password=.+/db.default.password="$MYSQL_PASSWORD"/g' /app/conf/common.conf
 echo "set db.default.url to jdbc:mysql://$LINKED_MYSQL_CONTAINER:3306/$MYSQL_DATABASE"
-sed -i -r 's/db\.default\.url=.+/db.default.url="jdbc:mysql:\/\/$LINKED_MYSQL_CONTAINER:3306\/$MYSQL_DATABASE"/g' /app/conf/common.conf
+sed -i -r 's/db\.default\.url=.+/db.default.url="jdbc:mysql:\/\/rearview\-mysql:3306\/$MYSQL_DATABASE"/g' /app/conf/common.conf
