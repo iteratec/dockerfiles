@@ -12,7 +12,7 @@ else
 	Q1="CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE;"
 	mysql -h $LINKED_MYSQL_CONTAINER -uroot -p$MYSQL_ROOT_PASSWORD -e "$Q1"
 	echo "Rearview database does not exist -> Creating database user named $MYSQL_USER and grant access to db."
-	Q2="GRANT ALL ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'localhost' IDENTIFIED BY '$MYSQL_PASSWORD';"
+	Q2="GRANT ALL ON $MYSQL_DATABASE.* TO '$MYSQL_USER' IDENTIFIED BY '$MYSQL_PASSWORD';"
 	Q3="FLUSH PRIVILEGES;"
 	mysql -h $LINKED_MYSQL_CONTAINER -uroot -p$MYSQL_ROOT_PASSWORD -e "${Q2}${Q3}"
 	echo "Rearview database does not exist -> Import dump."
