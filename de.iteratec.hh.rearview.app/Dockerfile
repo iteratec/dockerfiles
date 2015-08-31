@@ -4,4 +4,4 @@ MAINTAINER Nils Kuhn <nils.kuhn@iteratec.de>
 RUN rm /app/RUNNING_PID
 
 EXPOSE 9000 8888
-ENTRYPOINT ["sbt", "start"]
+# ENTRYPOINT ["sbt", "start"]
