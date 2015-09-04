@@ -47,6 +47,8 @@ COPY config/php.ini /usr/local/etc/php/
 
 COPY config/apache2.conf /etc/apache2/apache2.conf
 
+COPY config/imagick.ini /usr/local/etc/php/conf.d/imagick.ini
+
 VOLUME /var/www/html/settings
 
 EXPOSE 80 443
