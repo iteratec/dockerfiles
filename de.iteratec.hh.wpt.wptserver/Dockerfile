@@ -48,6 +48,12 @@ RUN cd /tmp && \
     chmod 0750 -R work && \
     chmod 0750 logs
 
+RUN cd /var/www/html/settings && \
+    mv settings.ini.sample settings.ini && \
+    mv connectivity.ini.sample connectivity.ini
+
+COPY config/locations.ini /var/www/html/settings/locations.ini
+
 COPY config/php.ini /usr/local/etc/php/
 
 COPY config/apache2.conf /etc/apache2/apache2.conf
