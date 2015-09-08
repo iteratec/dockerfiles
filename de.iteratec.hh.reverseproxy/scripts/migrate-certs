@@ -1,0 +1,16 @@
+#!/bin/bash
+sites_in=/scripts/sites/
+sites_out=/etc/apache2/sites-enabled/
+
+if [[ ! -d $sites_in ]]; then
+    echo "$sites_in doesn't exist!"
+    exit
+fi
+
+if [[ ! -d $sites_out ]]; then
+    echo "$sites_out doesn't exist!"
+    exit
+fi
+
+find "$sites_in" -type f -exec cp {} $sites_out \;
+#cp -v $scripts* $sites
