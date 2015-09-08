@@ -1,6 +1,8 @@
 FROM php:5.6-apache
 MAINTAINER Hauke Mettendorf <hauke.mettendorf@iteratec.de>
 
+ENV PATH=$PATH:/scripts
+
 RUN echo deb http://www.deb-multimedia.org jessie main non-free >> /etc/apt/sources.list && \
     apt-get update
 
