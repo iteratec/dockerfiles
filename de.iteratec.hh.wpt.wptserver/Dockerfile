@@ -58,6 +58,15 @@ COPY config/php.ini /usr/local/etc/php/
 
 COPY config/apache2.conf /etc/apache2/apache2.conf
 
+# Create script directory
+RUN mkdir -p /scripts/settings
+
+# Copy scripts
+COPY scripts/migrate-settings /scripts/migrate-settings
+
+# Set execution bit
+RUN chmod +x /scripts/migrate-settings
+
 VOLUME /var/www/html/settings
 
 EXPOSE 80 443
