@@ -13,4 +13,5 @@ if [[ ! -d $sites_out ]]; then
 fi
 
 find "$sites_in" -type f -exec cp {} $sites_out \;
+echo "Copying sites..."s
 #cp -v $scripts* $sites

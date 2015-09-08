@@ -1,16 +1,36 @@
 #!/bin/bash
-sites_in=/scripts/sites/
-sites_out=/etc/apache2/sites-enabled/
+certs_in=/scripts/certs
+certs_out=/etc/ssl/apache
 
-if [[ ! -d $sites_in ]]; then
-    echo "$sites_in doesn't exist!"
+# Make sure all directories exists
+mkdir -p $certs_out/certs
+mkdir -p $certs_out/keys
+mkdir -p $certs_out/bundles
+
+chmod 700 -R $certs_out
+
+if [[ ! -d $certs_in ]]; then
+    echo "$certs_in doesn't exist!"
     exit
 fi
 
-if [[ ! -d $sites_out ]]; then
-    echo "$sites_out doesn't exist!"
+if ls $certs_in/*.key > /dev/null 2>&1; then
+    cp $certs_in/*.key $certs_out/keys/
+    echo "Copying keys..."
+else
+    echo "Key-File not found!"
     exit
 fi
 
-find "$sites_in" -type f -exec cp {} $sites_out \;
-#cp -v $scripts* $sites
+if ls $certs_in/*.crt > /dev/null 2>&1; then
+    cp $certs_in/*.crt $certs_out/certs/
+    echo "Copying certifates..."
+else
+    echo "Certificate-File not found!"
+    exit
+fi
+
+if ls $certs_in/*.ca-bundle > /dev/null 2>&1; then
+    cp $certs_in/*.ca-bundle $certs_out/bundles/
+    echo "Copying ca-bundles..."
+fi

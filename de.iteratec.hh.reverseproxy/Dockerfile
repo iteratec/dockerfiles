@@ -32,8 +32,8 @@ ADD sites-available/https-only-example.conf /etc/apache2/sites-available/https-o
 
 # Create certificate directories
 RUN mkdir -p /etc/ssl/apache/keys && \
-mkdir -p /etc/ssl/apache/certs && \
-mkdir -p /etc/ssl/apache/intermediates
+    mkdir -p /etc/ssl/apache/certs && \
+    mkdir -p /etc/ssl/apache/intermediates
 
 # Create pid directory
 RUN mkdir -p /var/run/apache2
@@ -46,11 +46,13 @@ RUN mkdir -p /scripts/sites
 
 # Copy scripts
 COPY scripts/migrate-sites /scripts/migrate-sites
+COPY scripts/migrate-certs /scripts/migrate-certs
 
 # Set execution bit
-RUN chmod +x /scripts/migrate-sites
+RUN chmod +x /scripts/migrate-sites && \
+    chmod +x /scripts/migrate-certs
 
-VOLUME ["/etc/ssl/apache2", "/etc/apache2/sites-enabled", "/var/log/apache2", "/etc/apache2/authentication"]
+VOLUME ["/etc/ssl/apache", "/etc/apache2/sites-enabled", "/var/log/apache2", "/etc/apache2/authentication"]
 
 CMD ["apache2ctl" , "-D", "FOREGROUND"]
 
