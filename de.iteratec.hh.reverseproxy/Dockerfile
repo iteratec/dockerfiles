@@ -4,6 +4,7 @@ MAINTAINER Hauke Mettendorf <hauke.mettendorf@proum.de>
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV TERM xterm
+ENV PATH=$PATH:/scripts
 
 # Update repositories and install apache and nano
 # After that apt status information
@@ -40,7 +41,18 @@ RUN mkdir -p /var/run/apache2
 # Set permissions
 RUN chmod -R 700 /etc/ssl/apache
 
+# Create script directory
+RUN mkdir -p /scripts/sites
+
+# Copy scripts
+COPY scripts/migrate-sites /scripts/migrate-sites
+
+# Set execution bit
+RUN chmod +x /scripts/migrate-sites
+
 VOLUME ["/etc/ssl/apache2", "/etc/apache2/sites-enabled", "/var/log/apache2", "/etc/apache2/authentication"]
+
+RUN cd /scripts
 
 CMD ["apache2ctl" , "-D", "FOREGROUND"]
 
