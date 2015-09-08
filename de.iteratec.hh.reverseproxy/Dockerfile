@@ -52,8 +52,6 @@ RUN chmod +x /scripts/migrate-sites
 
 VOLUME ["/etc/ssl/apache2", "/etc/apache2/sites-enabled", "/var/log/apache2", "/etc/apache2/authentication"]
 
-RUN cd /scripts
-
 CMD ["apache2ctl" , "-D", "FOREGROUND"]
 
 EXPOSE 80 443
