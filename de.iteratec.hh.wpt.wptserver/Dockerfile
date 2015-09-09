@@ -40,7 +40,7 @@ RUN cd /tmp && \
     wget https://github.com/iteratec-hh/webpagetest/archive/multistep.zip && \
     unzip multistep.zip && \
     cd webpagetest-multistep && \
-    cp -a www/* /var/www/html && \
+    cp -a www/. /var/www/html && \
     rm -rf /tmp/* && \
     chown -R www-data:www-data /var/www/html && \
     cd /var/www/html && \
