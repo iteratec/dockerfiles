@@ -1,3 +1,5 @@
+//base url of application
+grails.serverURL = "https://{BASE_URL_OSM}"
 // Configure default app users
 grails.de.iteratec.osm.security.initialOsmAdminUser.username='${OSM_ADMIN_USER}'
 grails.de.iteratec.osm.security.initialOsmAdminUser.password='${OSM_ADMIN_PASSWORD}'
