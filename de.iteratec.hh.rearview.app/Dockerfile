@@ -12,8 +12,6 @@ RUN mkdir /root/.ivy2
 VOLUME /app
 VOLUME /root/.ivy2
 
-RUN rm /app/RUNNING_PID
-
 EXPOSE 9000 8888
 
 ADD entrypoint.sh /root/entrypoint.sh
