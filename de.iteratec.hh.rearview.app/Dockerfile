@@ -6,6 +6,8 @@ RUN apk update
 RUN apk add git
 # get rearview from git
 RUN git clone https://github.com/IteraSpeed/rearview.git --branch v1.0.0-scala --single-branch /app
+# install mysql client
+RUN apk add mysql-client
 # create folder for ivy2 cache
 RUN mkdir /root/.ivy2
 # create volumes
