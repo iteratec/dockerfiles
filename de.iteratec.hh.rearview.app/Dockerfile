@@ -3,7 +3,7 @@ MAINTAINER Nils Kuhn <nils.kuhn@iteratec.de>
 
 # install git
 RUN apk update
-RUN apk add git vim
+RUN apk add git vim ruby ruby-dev
 # get rearview from git
 RUN git clone https://github.com/IteraSpeed/rearview.git --branch v1.0.0-scala --single-branch /app
 # install mysql client

@@ -67,6 +67,4 @@ then
 	echo "DONE"
 fi
 cd /app
-sbt test & PID_SBT_TEST=$!
-wait $PID_SBT_TEST
 sbt start
