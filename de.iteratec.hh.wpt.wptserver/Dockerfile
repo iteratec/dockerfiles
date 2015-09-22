@@ -70,5 +70,6 @@ COPY scripts/migrate-settings /scripts/migrate-settings
 RUN chmod +x /scripts/migrate-settings
 
 VOLUME /var/www/html/settings
+VOLUME /var/www/html/results
 
 EXPOSE 80 443
