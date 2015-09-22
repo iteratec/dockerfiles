@@ -1,6 +1,6 @@
 #!/bin/bash
 settings_in=/scripts/settings/
-settings_out=/var/www/html/settings/
+settings_out=/var/www/html
 
 if [[ ! -d $settings_in ]]; then
     echo "$settings_in doesn't exist!"
@@ -12,5 +12,5 @@ if [[ ! -d $settings_out ]]; then
     exit
 fi
 
-find "$settings_in" -type f -exec cp {} $settings_out \;
+cp -Rf $settings_in $settings_out
 echo "Copying settings..."
