@@ -9,6 +9,6 @@ RUN \
     docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ && \
     docker-php-ext-install ldap
 
-VOLUME["/var/www/html/config", "VOLUME /var/www/html/data"]
+VOLUME ["/var/www/html/config", "/var/www/html/data"]
 
 EXPOSE 80 443
