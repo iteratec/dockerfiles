@@ -44,9 +44,7 @@ RUN cd /tmp && \
     rm -rf /tmp/* && \
     chown -R www-data:www-data /var/www/html && \
     cd /var/www/html && \
-    #chmod 0750 tmp && \
     chmod 0750 dat && \
-    #chmod 0750 results && \
     chmod 0750 -R work && \
     chmod 0750 logs
 
@@ -60,16 +58,27 @@ COPY config/php.ini /usr/local/etc/php/
 
 COPY config/apache2.conf /etc/apache2/apache2.conf
 
+# Install  and config supervisor
+RUN apt-get install -y supervisor
+RUN mkdir -p /var/log/supervisor
+COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY config/supervisord_apache.conf /etc/supervisor/conf.d/supervisord_apache.conf
+COPY config/supervisord_cron.conf /etc/supervisor/conf.d/supervisord_cron.conf
+
 # Create script directory
 RUN mkdir -p /scripts/settings
 
 # Copy scripts
 COPY scripts/migrate-settings /scripts/migrate-settings
+COPY scripts/start_archiving.sh /scripts/start_archiving.sh
 
 # Set execution bit
 RUN chmod +x /scripts/migrate-settings
+RUN chmod +x /scripts/start_archiving.sh
 
 VOLUME /var/www/html/settings
 VOLUME /var/www/html/results
 
 EXPOSE 80 443
+
+CMD ["/usr/bin/supervisord"]
