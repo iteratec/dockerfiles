@@ -18,8 +18,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -q -y --force-yes \
     libpng12-dev \
     libcurl4-openssl-dev \
     python \
-    python-pillow && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -q -y \
+    python-pillow
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -q -y --force-yes\
     ffmpeg && \
     apt-get clean && \
     apt-get autoclean
