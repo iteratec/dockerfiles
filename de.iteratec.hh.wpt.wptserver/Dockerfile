@@ -58,6 +58,8 @@ COPY config/php.ini /usr/local/etc/php/
 
 COPY config/apache2.conf /etc/apache2/apache2.conf
 
+COPY config/crontab /etc/crontab
+
 # Install  and config supervisor
 RUN apt-get install -y supervisor
 RUN mkdir -p /var/log/supervisor
