@@ -62,8 +62,8 @@ COPY config/apache2.conf /etc/apache2/apache2.conf
 RUN apt-get install -y supervisor
 RUN mkdir -p /var/log/supervisor
 COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-COPY config/supervisord_apache.conf /etc/supervisor/conf.d/supervisord_apache.conf
-COPY config/supervisord_cron.conf /etc/supervisor/conf.d/supervisord_cron.conf
+COPY config/supervisord/supervisord_apache.conf /etc/supervisor/conf.d/supervisord_apache.conf
+COPY config/supervisord/supervisord_cron.conf /etc/supervisor/conf.d/supervisord_cron.conf
 
 # Create script directory
 RUN mkdir -p /scripts/settings
