@@ -33,10 +33,10 @@ fi
 
 # set rearview-config respective set environment variables
 
-if [ -n "GRAPHITE_HOST" ]
+if [ -n "GRAPHITE_URL_SCHEME" ] && [ -n "GRAPHITE_HOST" ]
 then
 	echo "set graphite.host in common.conf to $GRAPHITE_HOST..."
-	sed -i -r "s/graphite\.host=.+/graphite.host=\"$GRAPHITE_HOST\"/g" /app/conf/common.conf
+	sed -i -r "s/graphite\.host=.+/graphite.host=\"${GRAPHITE_URL_SCHEME}\/\/${GRAPHITE_HOST}\"/g" /app/conf/common.conf
 	echo "DONE"
 fi
 if [ -n "EMAIL_FROM" ]
