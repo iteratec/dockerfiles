@@ -11,7 +11,7 @@ RUN apk add mysql-client
 # create folder for ivy2 cache
 RUN mkdir /root/.ivy2
 # create volumes
-VOLUME /app
+VOLUME /app/conf
 VOLUME /root/.ivy2
 
 EXPOSE 9000 8888
