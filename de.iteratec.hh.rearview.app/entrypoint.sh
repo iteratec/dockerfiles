@@ -36,7 +36,37 @@ fi
 if [ -n "GRAPHITE_HOST" ]
 then
 	echo "set graphite.host in common.conf to $GRAPHITE_HOST..."
-	sed -i -r "s/graphite\.host=.+/graphite.host=\"http:\/\/$GRAPHITE_HOST\"/g" /app/conf/common.conf
+	sed -i -r "s/graphite\.host=.+/graphite.host=\"$GRAPHITE_HOST\"/g" /app/conf/common.conf
+	echo "DONE"
+fi
+if [ -n "EMAIL_FROM" ]
+then
+	echo "set email.from in common.conf to $EMAIL_FROM..."
+	sed -i -r "s/email\.from=.+/email.from=\"$EMAIL_FROM\"/g" /app/conf/common.conf
+	echo "DONE"
+fi
+if [ -n "EMAIL_HOST" ]
+then
+	echo "set email.host in common.conf to $EMAIL_HOST..."
+	sed -i -r "s/email\.host=.+/email.host=\"$EMAIL_HOST\"/g" /app/conf/common.conf
+	echo "DONE"
+fi
+if [ -n "EMAIL_PORT" ]
+then
+	echo "set email.port in common.conf to $EMAIL_PORT..."
+	sed -i -r "s/email\.port=.+/email.port=\"$EMAIL_PORT\"/g" /app/conf/common.conf
+	echo "DONE"
+fi
+if [ -n "EMAIL_USER" ]
+then
+	echo "set email.user in common.conf to $EMAIL_USER..."
+	sed -i -r "s/email\.user=.+/email.user=\"$EMAIL_USER\"/g" /app/conf/common.conf
+	echo "DONE"
+fi
+if [ -n "EMAIL_PASSWORD_REARVIEW" ]
+then
+	echo "set email.password in common.conf to $EMAIL_PASSWORD_REARVIEW..."
+	sed -i -r "s/email\.password=.+/email.password=\"$EMAIL_PASSWORD_REARVIEW\"/g" /app/conf/common.conf
 	echo "DONE"
 fi
 if [ -n "MYSQL_USER" ]
