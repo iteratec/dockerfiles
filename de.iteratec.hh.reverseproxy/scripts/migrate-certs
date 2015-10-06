@@ -19,7 +19,7 @@ if ls $certs_in/*.key > /dev/null 2>&1; then
     echo "Copying keys..."
 else
     echo "Key-File not found!"
-    exit
+    exit $?
 fi
 
 if ls $certs_in/*.crt > /dev/null 2>&1; then
@@ -27,10 +27,10 @@ if ls $certs_in/*.crt > /dev/null 2>&1; then
     echo "Copying certifates..."
 else
     echo "Certificate-File not found!"
-    exit
+    exit $?
 fi
 
 if ls $certs_in/*.ca-bundle > /dev/null 2>&1; then
-    cp $certs_in/*.ca-bundle $certs_out/bundles/
+    cp $certs_in/*.ca-bundle $certs_out/intermediates/
     echo "Copying ca-bundles..."
 fi
