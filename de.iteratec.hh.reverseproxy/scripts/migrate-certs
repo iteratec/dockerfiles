@@ -5,7 +5,7 @@ certs_out=/etc/ssl/apache
 # Make sure all directories exists
 mkdir -p $certs_out/certs
 mkdir -p $certs_out/keys
-mkdir -p $certs_out/bundles
+mkdir -p $certs_out/intermediates
 
 chmod 700 -R $certs_out
 
