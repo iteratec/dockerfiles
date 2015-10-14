@@ -51,5 +51,4 @@ COPY overview-map.sh /osm/overview-map.sh
 
 EXPOSE 4567
 
-ENTRYPOINT /osm
-CMD java -jar /osm/osm-wpt-overview-map-0.2.jar
+ENTRYPOINT cd /osm && java -jar /osm/osm-wpt-overview-map-0.2.jar
