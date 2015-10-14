@@ -46,8 +46,6 @@ ENV PATH ${PATH}:${JAVA_HOME}/bin
 
 # Install osm-wpt-overview-map
 COPY osm-wpt-overview-map-0.2.jar /osm/osm-wpt-overview-map-0.2.jar
-#COPY osm-servers.txt /osm/osm-servers.txt
-COPY overview-map.sh /osm/overview-map.sh
 
 EXPOSE 4567
 
