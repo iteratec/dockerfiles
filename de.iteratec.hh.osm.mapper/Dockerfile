@@ -1,7 +1,7 @@
 # AlpineLinux with a glibc-2.21 and Oracle Java 8
 
 FROM alpine:3.2
-MAINTAINER Anastas Dancha [...]
+MAINTAINER Jakob Kuczewski
 
 # Install cURL
 RUN apk --update add curl ca-certificates tar && \
@@ -51,4 +51,5 @@ COPY overview-map.sh /osm/overview-map.sh
 
 EXPOSE 4567
 
-ENTRYPOINT exec /osm/overview-map.sh
+ENTRYPOINT /osm
+CMD java -jar /osm/osm-wpt-overview-map-0.2.jar
