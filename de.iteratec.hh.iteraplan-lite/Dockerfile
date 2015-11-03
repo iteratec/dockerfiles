@@ -30,6 +30,11 @@ RUN (rm /opt/iteraplan.zip && \
 COPY config/tomcat-users.xml /opt/iteraplan/tomcat/conf/tomcat-users.xml
 COPY config/probe-2.4.0/probe.war /opt/iteraplan/tomcat/webapps/probe.war
 
+# Copy iteraplan to ROOT context
+RUN rm -R /opt/iteraplan/tomcat/webapps/ROOT/* && \
+    mv /opt/iteraplan/tomcat/webapps/iteraplan/* /opt/iteraplan/tomcat/webapps/ROOT/ && \
+    rm -R /opt/iteraplan/tomcat/webapps/iteraplan
+
 RUN (chmod a+x /opt/iteraplan/*.sh  && \
      chmod a+x /opt/iteraplan/tomcat/bin/*.sh)
 

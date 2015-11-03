@@ -39,6 +39,5 @@
   <role rolename="poweruserplus" />
 -->
   <role rolename="manager-gui" />
-  <user username="admin" password="nZTbfoHC" roles="manager-gui" />
 
 </tomcat-users>
