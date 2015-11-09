@@ -1,7 +1,5 @@
 #!/bin/bash
 
-LINKED_MYSQL_CONTAINER="rearview-mysql"
-
 # preparation of mysql database
 
 RESULT=`mysql -h $LINKED_MYSQL_CONTAINER -uroot -p$MYSQL_ROOT_PASSWORD --skip-column-names -e "SHOW DATABASES LIKE '$MYSQL_DATABASE'"`
@@ -84,7 +82,7 @@ fi
 if [ -n "MYSQL_DATABASE" ]
 then
 	echo "set db.default.url to jdbc:mysql://$LINKED_MYSQL_CONTAINER:3306/$MYSQL_DATABASE..."
-	sed -i -r "s/db\.default\.url=.+/db.default.url=\"jdbc:mysql:\/\/rearview\-mysql:3306\/$MYSQL_DATABASE\"/g" /app/conf/common.conf
+	sed -i -r "s/db\.default\.url=.+/db.default.url=\"jdbc:mysql:\/\/$LINKED_MYSQL_CONTAINER_SED_ESCAPED:3306\/$MYSQL_DATABASE\"/g" /app/conf/common.conf
 	echo "DONE"
 fi
 
