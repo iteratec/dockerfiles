@@ -2,7 +2,7 @@ FROM tomcat:7.0.64-jre7
 MAINTAINER nils.kuhn@iteratec.de
 
 # add war files
-ADD webapps/OpenSpeedMonitor-3.1.9.war /usr/local/tomcat/webapps/OpenSpeedMonitor.war
+ADD webapps/OpenSpeedMonitor-3.2.4.war /usr/local/tomcat/webapps/OpenSpeedMonitor.war
 ADD webapps/probe.war /usr/local/tomcat/webapps/probe.war
 VOLUME /usr/local/tomcat/webapps
 
