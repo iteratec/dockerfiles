@@ -10,3 +10,5 @@ RUN apt-get update && \
     apt-get autoremove
 
 RUN pip install markupsafe ansible docker-py
+
+USER jenkins
