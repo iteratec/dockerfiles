@@ -5,7 +5,7 @@ STATSD_PORT=8125
 LOG_LEVEL=1
 
 # Set default values
-[ -z "$STATSD_STATUS_NAME" ] && STATSD_STATUS_NAME=$(cat /proc/self/cgroup | grep 'docker' | sed 's/^.*\///' | tail -n1)
+[ -z "$STATSD_STATUS_NAME" ] && STATSD_STATUS_NAME=$(cat /proc/self/cgroup | grep 'docker' | sed 's/^.*\///' | tail -n1 | grep -Eo ^[^\.]+)
 [ -z "$STATSD_STATUS_SERVER" ] && STATSD_STATUS_SERVER=graphite.hh.iteratec.de
 
 # Run if activated
