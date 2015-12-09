@@ -11,7 +11,7 @@ RUN useradd iteraplan -M -f 0
 
 RUN DEBIAN_FRONTEND=noninteractive && \
     apt-get update && \
-    apt-get install -y unzip wget supervisor && \
+    apt-get install -y unzip wget supervisor netcat && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
