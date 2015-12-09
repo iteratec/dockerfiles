@@ -40,10 +40,20 @@ RUN (chmod a+x /opt/iteraplan/*.sh  && \
 
 RUN chown -R iteraplan:iteraplan /opt/iteraplan
 
+# Configure statsd_status_reporter
+RUN mkdir -p /scripts
+
+# Copy statsd_status_reporter
+COPY config/statsd_status_reporter /scripts/statsd_status_reporter
+
+# Set permissions for reporter
+RUN chmod a+x /scripts/statsd_status_reporter
+
 # Configure supervisor
 COPY config/supervisor/supervisord.conf /etc/supervisor/supervisord.conf
 COPY config/supervisor/hsqldb.conf /etc/supervisor/conf.d/hsqldb.conf
 COPY config/supervisor/tomcat.conf /etc/supervisor/conf.d/tomcat.conf
+COPY config/supervisor/statsd_status_reporter.conf /etc/supervisor/conf.d/statsd_status_reporter.conf
 
 # Volumes
 VOLUME /opt/iteraplan/hsqldb/data

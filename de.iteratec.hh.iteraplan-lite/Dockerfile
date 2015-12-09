@@ -47,7 +47,7 @@ RUN mkdir -p /scripts
 COPY config/statsd_status_reporter /scripts/statsd_status_reporter
 
 # Set permissions for reporter
-RUN chmod +x /scripts/statsd_status_reporter
+RUN chmod a+x /scripts/statsd_status_reporter
 
 # Configure supervisor
 COPY config/supervisor/supervisord.conf /etc/supervisor/supervisord.conf
