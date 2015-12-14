@@ -9,7 +9,7 @@ LOG_LEVEL=1
 [ -z "$STATSD_STATUS_SERVER" ] && STATSD_STATUS_SERVER=graphite.hh.iteratec.de
 
 # Run if activated
-if [ -n "$STATSD_STATUS_REPORT" -a "$STATSD_STATUS_REPORT" = true ];
+if [[ -n "$STATSD_STATUS_REPORT" && "$STATSD_STATUS_REPORT" =~ (T|t)rue ]]
 then
 	# Log
 	echo "Starting status reports..."
