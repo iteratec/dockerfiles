@@ -12,4 +12,6 @@ RUN apt-get update && \
 
 RUN pip install markupsafe ansible docker-py
 
+RUN mkdir /etc/ansible
+
 USER jenkins
