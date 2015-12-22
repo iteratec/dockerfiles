@@ -12,6 +12,4 @@ RUN apt-get update && \
 
 RUN pip install markupsafe ansible docker-py
 
-COPY hosts /etc/ansible/hosts
-
 USER jenkins
