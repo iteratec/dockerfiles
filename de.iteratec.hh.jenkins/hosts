@@ -1,0 +1,1 @@
+vagrant_target ansible_ssh_host=172.17.0.1 ansible_ssh_user=vagrant
