@@ -5,7 +5,7 @@ USER root
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
       python-pip \
-      python-dev && \
+      python-dev \
       git && \
     apt-get clean && \
     apt-get autoremove
