@@ -10,7 +10,7 @@ RUN apt-get update && \
     apt-get clean && \
     apt-get autoremove
 
-RUN pip install markupsafe ansible docker-py
+RUN pip install markupsafe ansible docker-py ansible-lint
 
 RUN mkdir /etc/ansible
 
