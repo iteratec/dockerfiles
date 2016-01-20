@@ -7,6 +7,7 @@ RUN apt-get update && \
       python-pip \
       python-dev \
       git && \
+      ruby-serverspec \
     apt-get clean && \
     apt-get autoremove
 
