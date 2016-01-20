@@ -6,8 +6,8 @@ RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
       python-pip \
       python-dev \
-      git && \
-      ruby-serverspec \
+      git \
+      ruby-serverspec && \
     apt-get clean && \
     apt-get autoremove
 
