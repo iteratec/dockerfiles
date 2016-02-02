@@ -35,5 +35,5 @@
 -->
         <role rolename="manager-gui"/>
         <role rolename="manager-script"/>
-        <user username="${TOMCAT_USER}" password="${TOMCAT_PASSWORD}" roles="manager-gui,manager-script"/>
+        <user username="%TOMCAT_USER%" password="%TOMCAT_PASSWORD%" roles="manager-gui,manager-script"/>
 </tomcat-users>
