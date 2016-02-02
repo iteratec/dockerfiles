@@ -46,7 +46,8 @@ RUN cd /tmp && \
     chmod 0777 dat && \
     chmod 0777 -R work && \
     chmod 0777 logs && \
-    chmod 0777 results
+    mkdir -p results && \
+    chmod 0777 -R results
 
 RUN cd /var/www/html/settings && \
     mv settings.ini.sample settings.ini && \
