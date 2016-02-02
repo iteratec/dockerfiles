@@ -43,9 +43,10 @@ RUN cd /tmp && \
     rm -rf /tmp/* && \
     chown -R www-data:www-data /var/www/html && \
     cd /var/www/html && \
-    chmod 0750 dat && \
-    chmod 0750 -R work && \
-    chmod 0750 logs
+    chmod 0777 dat && \
+    chmod 0777 -R work && \
+    chmod 0777 logs && \
+    chmod 0777 results
 
 RUN cd /var/www/html/settings && \
     mv settings.ini.sample settings.ini && \
