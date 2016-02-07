@@ -1,4 +1,4 @@
-FROM ubuntu
+FROM phusion/baseimage-docker
 
 MAINTAINER Hauke Mettendorf <hauke.mettendorf@proum.de>
 
@@ -54,6 +54,6 @@ RUN chmod +x /scripts/migrate-sites && \
 
 VOLUME ["/etc/ssl/apache", "/etc/apache2/sites-enabled", "/var/log/apache2", "/etc/apache2/authentication"]
 
-CMD ["/bin/bash", "-c", "set -e && apache2ctl" , "-D", "FOREGROUND"]
+CMD ["apache2ctl" , "-D", "FOREGROUND"]
 
 EXPOSE 80 443
