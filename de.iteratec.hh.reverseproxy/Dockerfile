@@ -18,6 +18,9 @@ RUN echo "ServerName localhost" >> /etc/apache2/conf-enabled/hostname.conf
 # Enable mods
 RUN a2enmod ssl proxy proxy_http proxy_html xml2enc rewrite usertrack
 
+# Copy SSL config
+COPY ssl.conf /etc/apache2/mods-available/ssl.conf
+
 # Deactivate default sites
 RUN a2dissite 000-default default-ssl
 
