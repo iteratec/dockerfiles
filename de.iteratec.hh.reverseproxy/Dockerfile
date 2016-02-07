@@ -1,4 +1,4 @@
-FROM phusion/baseimage-docker
+FROM phusion/baseimage
 
 MAINTAINER Hauke Mettendorf <hauke.mettendorf@proum.de>
 
