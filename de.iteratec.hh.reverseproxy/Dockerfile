@@ -54,6 +54,6 @@ RUN chmod +x /scripts/migrate-sites && \
 
 VOLUME ["/etc/ssl/apache", "/etc/apache2/sites-enabled", "/var/log/apache2", "/etc/apache2/authentication"]
 
-CMD ["apache2ctl" , "-D", "FOREGROUND"]
+CMD ["/usr/sbin/apache2ctl" , "-D", "FOREGROUND"]
 
 EXPOSE 80 443
