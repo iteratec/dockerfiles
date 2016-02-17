@@ -10,7 +10,7 @@ RUN apt-get install -y openssh-server
 RUN sed -i 's|session    required     pam_loginuid.so|session    optional     pam_loginuid.so|g' /etc/pam.d/sshd
 RUN mkdir -p /var/run/sshd
 
-RUN apt-get install -y software-properties-common build-essential git nodejs
+RUN apt-get install -y software-properties-common build-essential git nodejs curl
 # Java 7
 RUN apt-get install -y openjdk-7-jdk
 # Java 8
@@ -20,14 +20,10 @@ RUN adduser --quiet jenkins
 RUN mkdir -p /home/jenkins/.ssh && chmod -R 700 /home/jenkins/.ssh && chown -R jenkins /home/jenkins/.ssh
 
 # install npm
+RUN apt-get install rlwrap
 RUN curl https://deb.nodesource.com/node_5.x/pool/main/n/nodejs/nodejs_5.6.0-1nodesource1~trusty1_amd64.deb > node.deb \
  && dpkg -i node.deb \
  && rm node.deb
-
-RUN npm install -g pangyp\
- && ln -s $(which pangyp) $(dirname $(which pangyp))/node-gyp\
- && npm cache clear\
- && node-gyp configure || echo ""
 
 RUN apt-get update \
  && apt-get upgrade -y --force-yes \
