@@ -8,11 +8,11 @@ RUN apt-get -y upgrade
 # Install a basic SSH server
 RUN apt-get install -y openssh-server
 
-RUN apt-get install software-properties-common python-software-properties git
+RUN apt-get install -y software-properties-common python-software-properties git
 # Java 7
 RUN apt-get install -y openjdk-7-jdk
 # Java 8
-RUN add-apt-repository -y ppa:openjdk-r/ppa && apt-get update && apt-get install openjdk-8-jdk
+RUN add-apt-repository -y ppa:openjdk-r/ppa && apt-get update && apt-get install -y openjdk-8-jdk
 
 RUN adduser --quiet jenkins
 
