@@ -10,7 +10,7 @@ RUN apt-get install -y openssh-server
 RUN sed -i 's|session    required     pam_loginuid.so|session    optional     pam_loginuid.so|g' /etc/pam.d/sshd
 RUN mkdir -p /var/run/sshd
 
-RUN apt-get install -y software-properties-common git nodejs
+RUN apt-get install -y software-properties-common build-essential git nodejs
 # Java 7
 RUN apt-get install -y openjdk-7-jdk
 # Java 8
