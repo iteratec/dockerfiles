@@ -7,10 +7,11 @@ RUN apt-get update && \
       python-pip \
       python-dev \
       git \
-      ruby-serverspec && \
+      ruby && \
     apt-get clean && \
     apt-get autoremove
 
+RUN gem install serverspec
 RUN pip install markupsafe ansible docker-py ansible-lint
 
 RUN mkdir /etc/ansible
