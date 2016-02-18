@@ -39,6 +39,7 @@ RUN rm -rf /usr/local/lib/node_modules/npm \
 EXPOSE 22
 
 ADD start_script.sh /start_script.sh
-RUN chmod +x /start_script.sh
+RUN chmod +x /start_script.sh && chown -R jenkins:jenkins /home/jenkins
 
+VOLUME ["/home/jenkins"]
 CMD ["/start_script.sh"]
