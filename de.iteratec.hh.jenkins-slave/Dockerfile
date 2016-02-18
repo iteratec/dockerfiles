@@ -10,7 +10,7 @@ RUN apt-get install -y openssh-server
 RUN sed -i 's|session    required     pam_loginuid.so|session    optional     pam_loginuid.so|g' /etc/pam.d/sshd
 RUN mkdir -p /var/run/sshd
 
-RUN apt-get install -y software-properties-common build-essential git nodejs curl
+RUN apt-get install -y software-properties-common build-essential git curl
 # Java 7
 RUN apt-get install -y openjdk-7-jdk
 # Java 8
@@ -19,15 +19,22 @@ RUN add-apt-repository -y ppa:openjdk-r/ppa && apt-get update && apt-get install
 RUN adduser --quiet jenkins
 RUN mkdir -p /home/jenkins/.ssh && chmod -R 700 /home/jenkins/.ssh && chown -R jenkins /home/jenkins/.ssh
 
-# install npm
-RUN apt-get install rlwrap
-RUN curl https://deb.nodesource.com/node_5.x/pool/main/n/nodejs/nodejs_5.6.0-1nodesource1~trusty1_amd64.deb > node.deb \
- && dpkg -i node.deb \
- && rm node.deb
+# install node/nodejs
+RUN curl -sL https://deb.nodesource.com/setup | sudo bash - \
+ && apt-get install -y nodejs \
+ && ln -s -f /usr/bin/nodejs /usr/bin/node
 
-RUN apt-get update \
- && apt-get upgrade -y --force-yes \
- && rm -rf /var/lib/apt/lists/*;
+# install npm
+# workaround for this: https://github.com/npm/npm/issues/9863
+# Discussed in https://github.com/npm/npm/pull/10805
+RUN rm -rf /usr/local/lib/node_modules/npm \
+ && git clone https://github.com/DIREKTSPEED-LTD/npm /usr/local/lib/node_modules/npm \
+ && cd /usr/local/lib/node_modules/npm \
+ && npm install
+
+#RUN apt-get update \
+ #&& apt-get upgrade -y --force-yes \
+ #&& rm -rf /var/lib/apt/lists/*;
 
 EXPOSE 22
 
