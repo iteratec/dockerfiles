@@ -18,6 +18,7 @@ RUN pip install markupsafe ansible docker-py ansible-lint
 COPY profile_tasks.py /usr/local/lib/python2.7/dist-packages/ansible/plugins/callback/profile_tasks.py
 RUN chmod 0644 /usr/local/lib/python2.7/dist-packages/ansible/plugins/callback/profile_tasks.py
 
-RUN chmod 0777 /usr/local/lib/python2.7/dist-packages/ansible/plugins/callback
+RUN chown root:jenkins /usr/local/lib/python2.7/dist-packages/ansible/plugins/callback
+RUN chmod 0774 /usr/local/lib/python2.7/dist-packages/ansible/plugins/callback
 
 USER jenkins
