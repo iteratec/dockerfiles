@@ -15,9 +15,7 @@ RUN apt-get update && \
 RUN gem install serverspec
 RUN pip install markupsafe ansible docker-py ansible-lint
 
-COPY human_log.py /usr/local/lib/python2.7/dist-packages/ansible/plugins/callback/human_log.py
 COPY profile_tasks.py /usr/local/lib/python2.7/dist-packages/ansible/plugins/callback/profile_tasks.py
-RUN chmod 0644 /usr/local/lib/python2.7/dist-packages/ansible/plugins/callback/human_log.py
 RUN chmod 0644 /usr/local/lib/python2.7/dist-packages/ansible/plugins/callback/profile_tasks.py
 
 USER jenkins
