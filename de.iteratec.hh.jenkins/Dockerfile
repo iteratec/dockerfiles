@@ -25,14 +25,6 @@ USER jenkins
 
 # make all static preparations not necessary in Ansible
 
-RUN \
-  mkdir -p /usr/share/jenkins/ref/users/admin && \
-  touch /usr/share/jenkins/ref/users/admin/.temp && \
-  mkdir -p /usr/share/jenkins/ref/jobs/RUN_CHECK && \
-  touch /usr/share/jenkins/ref/jobs/RUN_CHECK/.temp && \
-  mkdir -p /usr/share/jenkins/ref/ansible-ci/serverspec/spec && \
-  touch /usr/share/jenkins/ref/ansible-ci/serverspec/spec/.temp
-
 COPY jenkins_home /usr/share/jenkins/ref
 COPY ansible-ci /usr/share/jenkins/ref/ansible-ci
 
