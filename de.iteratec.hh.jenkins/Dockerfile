@@ -22,3 +22,20 @@ RUN chown root:jenkins /usr/local/lib/python2.7/dist-packages/ansible/plugins/ca
 RUN chmod 0774 /usr/local/lib/python2.7/dist-packages/ansible/plugins/callback
 
 USER jenkins
+
+# make all static preparations not necessary in Ansible
+
+RUN \
+  mkdir -p /usr/share/jenkins/ref/users/admin && \
+  touch /usr/share/jenkins/ref/users/admin/.temp && \
+  mkdir -p /usr/share/jenkins/ref/jobs/RUN_CHECK && \
+  touch /usr/share/jenkins/ref/jobs/RUN_CHECK/.temp && \
+  mkdir -p /usr/share/jenkins/ref/ansible-ci/serverspec/spec && \
+  touch /usr/share/jenkins/ref/ansible-ci/serverspec/spec/.temp
+
+COPY jenkins_home /usr/share/jenkins/ref
+COPY ansible-ci /usr/share/jenkins/ref/ansible-ci
+
+# install jenkins plugins
+COPY plugins.txt /usr/share/jenkins/plugins.txt
+RUN /usr/local/bin/plugins.sh /usr/share/jenkins/plugins.txt

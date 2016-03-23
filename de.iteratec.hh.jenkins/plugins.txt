@@ -1,0 +1,7 @@
+build-blocker-plugin:1.7.3
+git:2.4.3
+git-client:1.19.6
+scm-api:1.1
+job-dsl:1.43
+parameterized-trigger:2.30
+simple-theme-plugin:0.3
