@@ -8,6 +8,7 @@ RUN apt-get update && \
       python-dev \
       git \
       ruby \
+      ruby-dev \
       rake && \
     apt-get clean && \
     apt-get autoremove
