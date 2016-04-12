@@ -1,4 +1,4 @@
-FROM owncloud:9.0.1
+FROM owncloud:9.0
 MAINTAINER Hauke Mettendorf <hauke.mettendorf@iteratec.de>
 
 # Install ldap requirements
