@@ -16,6 +16,9 @@ RUN apt-get update && \
 RUN gem install serverspec
 RUN pip install markupsafe ansible docker-py ansible-lint
 
+COPY get-public-key /usr/local/bin/get-public-key
+RUN chmod 0755 /usr/local/bin/get-public-key
+
 COPY profile_tasks.py /usr/local/lib/python2.7/dist-packages/ansible/plugins/callback/profile_tasks.py
 RUN chmod 0644 /usr/local/lib/python2.7/dist-packages/ansible/plugins/callback/profile_tasks.py
 
