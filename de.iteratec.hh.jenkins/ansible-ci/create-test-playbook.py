@@ -22,14 +22,14 @@ data = yaml.load(content)
 
 for play in data:
   play['hosts'] = 'vagrant_target'
-  if hasattr(play, 'vars_files'):
+  if 'vars_files' in play:
       playbook_vars_files = list(play['vars_files'])
       for vars_files_entry in playbook_vars_files:
           for exclude_pattern in vexdata:
               if exclude_pattern in vars_files_entry:
                   play['vars_files'].remove(vars_files_entry)
   if os.path.isfile('aci/vars.yml'):
-      if not hasattr(play, 'vars_files'):
+      if 'vars_files' not in play:
         play['vars_files']=[]
       play['vars_files'].append('aci/vars.yml')
 
