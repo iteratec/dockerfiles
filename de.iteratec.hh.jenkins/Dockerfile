@@ -26,7 +26,7 @@ COPY profile_tasks.py /usr/local/lib/python2.7/dist-packages/ansible/plugins/cal
 RUN chown -R jenkins:jenkins /ansible && \
     chmod 0755 /usr/local/bin/start.sh && \
     chmod 0755 /usr/local/bin/get-public-key && \
-    chmod 0644 /ansible/lib/ansible/plugins/callback/profile_tasks.py && \
+    chmod 0644 /ansible/lib/ansible/plugins/callback/profile_tasks.py
 
 USER jenkins
 
