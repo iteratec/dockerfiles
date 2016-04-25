@@ -37,6 +37,7 @@ RUN cd /ansible && \
     git reset --hard 2790929e73
     git submodule update
 
+# copy static AnsibleCI content
 COPY jenkins_home /usr/share/jenkins/ref
 COPY ansible-ci /usr/share/jenkins/ref/ansible-ci
 
