@@ -1,0 +1,6 @@
+aci_prelive_user: ansibleci
+aci_prelive_machines:
+  - name: examplemachine
+    vagrant_box: ubuntu/trusty64
+    ssh_port: 3322
+    memory: 3072

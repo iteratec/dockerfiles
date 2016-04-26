@@ -1,0 +1,21 @@
+---
+
+acia_server_domain: localhost
+# The Vagrant Box used for the tests
+acia_vagrant_box: ubuntu/trusty64
+# the definitive SSH port to the ACIA vagrant machine
+acia_vagrant_port: 62822
+# the network part of the vagrant ip
+acia_vagrant_hostnet_netpart: 172.28.128
+# the client part of the vagrant ip
+acia_vagrant_hostnet_clientpart: 3
+
+# port for the squid-deb-proxy container
+acia_squid_port: 8000
+acia_dmirror_port: 5000
+
+# use same variables from aci_docker for acia_docker-mirror
+aci_docker_pki_countrycode: "DE"
+aci_docker_pki_state: "Hamburg"
+aci_docker_pki_locality: "Hamburg"
+aci_docker_pki_organization: "AnsibleCI"

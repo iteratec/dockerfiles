@@ -1,0 +1,11 @@
+---
+- name: setup AnsibleCI server
+  hosts: localhost
+  vars_files:
+    - /ansible_config/vault.yml
+    - /ansible_config/aci.yml
+    - /ansible_config/repositories.yml
+    - /ansible_config/agents.yml
+    - /ansible_config/prelive.yml
+  roles:
+    - de.iteratec.hh.ansible-ci

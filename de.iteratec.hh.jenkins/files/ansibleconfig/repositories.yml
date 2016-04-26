@@ -1,0 +1,20 @@
+---
+aci_repository:
+  - name: ProjectX
+    # Die vollständige URL des Repositories
+    url: "/repos/projectx"
+    # Der Pfad innerhalb des Repositories zu den Roles
+    subpath_roles: roles
+    # Der Pfad innerhalb des Repositories zu den Playbooks
+    subpath_playbooks: playbooks
+  - name: myRoles
+    url: "/repos/myRoles"
+  - name: myPlaybooks
+    url: "/repos/myPlaybooks"
+    roles_path_from:
+      - myRoles
+
+# Den Nutzer, den AnsibleCI gegenüber dem Git Repository einnimmt
+aci_repository_global_user_name: AnsibleCI
+# Die E-Mail-Adresse, die AnsibleCI gegenüber dem Git Repository einnimmt
+aci_repository_global_user_email: "{{ aci_admin_email }}"
