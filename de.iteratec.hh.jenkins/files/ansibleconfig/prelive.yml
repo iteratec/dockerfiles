@@ -1,6 +1,6 @@
 ---
-# the user connecting to the target hosts
-ansible_ssh_user: johndoe
+# the user used for running the Vagrant VMs
+aci_prelive_user: ansibleci
 
 aci_prelive_machines:
   - name: teamred
