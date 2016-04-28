@@ -27,7 +27,7 @@ if [[ $# -lt 1 ]] || [[ "$1" == "--"* ]]; then
   cd /ansible_data/playbooks/setup
   ansible-playbook --vault-password-file /tmp/ansible_vaultpass site.yml
 
-   exec java $JAVA_OPTS -jar /usr/share/jenkins/jenkins.war $JENKINS_OPTS "$@"
+  exec java $JAVA_OPTS -jar /usr/share/jenkins/jenkins.war $JENKINS_OPTS "$@"
 fi
 
 exec "$@"

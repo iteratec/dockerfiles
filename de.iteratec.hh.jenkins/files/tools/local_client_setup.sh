@@ -34,13 +34,32 @@ if [[ ! -f clientconfig/repositories.yml ]]; then
   echo "  - name: $repolabel" >> clientconfig/repositories.yml
   if [[ $rolespath ]]; then echo "    subpath_roles: $rolespath" >> clientconfig/repositories.yml; fi
   if [[ $playbookspath ]]; then echo "    subpath_playbooks: $playbookspath" >> clientconfig/repositories.yml; fi
+else
+  repolabel="$(grep name clientconfig/repositories.yml | cut -c 11-)"
 fi
 
 echo ''
 echo 'Starting ACI with...'
 read -s -p 'Vault Password:' avp && echo ''
-read -e -p 'The absolute path to your local ansible-infrastructure repository:' repopath
-read -p 'The user ACI should use to login on the agents machine (normally your user name): ' agentuser
+
+if [[ -f clientconfig/conf_repository_path ]]; then
+  repopath="$(cat clientconfig/conf_repository_path)"
+else
+  read -e -p 'The absolute path to your local ansible-infrastructure repository:' repopath
+  echo "$repopath" > clientconfig/conf_repository_path
+fi
+
+if [[ -f clientconfig/conf_agent_user ]]; then
+  agentuser="$(cat clientconfig/conf_agent_user)"
+else
+  read -p 'The user ACI should use to login on the agents machine (normally your user name): ' agentuser
+  echo "$agentuser" > clientconfig/conf_agent_user
+fi
+
+# update .gitignore
+for file in vault.yml conf_repository_path conf_agent_user; do
+  grep -q -F "clientconfig/$file" .gitignore || echo "clientconfig/$file" >> .gitignore
+done
 
 docker run -d \
   --name aci \
