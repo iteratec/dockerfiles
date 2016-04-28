@@ -4,12 +4,11 @@
   vars_files:
     - /example_config/vault.yml
     - /example_config/agents.yml
+    - /example_config/agent_user.yml
   vars_prompt:
-  - name: ansible_user
-    prompt: "SSH user for connecting to target host"
   - name: ansible_become_pass
     prompt: "SUDO password for the user"
     private: yes
-  remote_user: "{{ ansible_user }}"
+  remote_user: "{{ acia_login_user }}"
   roles:
     - de.iteratec.hh.ansible-ci-agent

@@ -260,10 +260,10 @@ fi
 # reset known_hosts file
 echo -e '\n< Starting test VM... >'
 rm "${JENKINS_HOME}/.ssh/known_hosts"
-ssh -o StrictHostKeyChecking=no -p "{{ acia_ssh_port }}" "{{ ansible_user_id }}@{{ acia_vagrant_host }}" date &> /dev/null
+ssh -o StrictHostKeyChecking=no -p "{{ acia_ssh_port }}" "{{ acia_login_user }}@{{ acia_vagrant_host }}" date &> /dev/null
 
 # start remote vagrant target and add to known_hosts file
-ssh -p '{{ acia_ssh_port }}' '{{ ansible_user_id }}@{{ acia_vagrant_host }}' ansible-ci-vagrant up 1> /dev/null
+ssh -p '{{ acia_ssh_port }}' '{{ acia_login_user }}@{{ acia_vagrant_host }}' ansible-ci-vagrant up 1> /dev/null
 ssh -o StrictHostKeyChecking=no -p '{{ acia_vagrant_port }}' 'vagrant@{{ acia_vagrant_host }}' date &> /dev/null
 echo '< ...done >'
 
@@ -355,7 +355,7 @@ if [[ $KEEP_TARGET = 'true' ]]; then
   echo "<Not removing test VM as KEEP_TARGET variable in 03_RUN_TESTS job is set to 'true'>"
 else
   echo '< Removing test VM... >'
-  ssh -p '{{ acia_ssh_port }}' '{{ ansible_user_id }}@{{ acia_vagrant_host }}' ansible-ci-vagrant destroy 1> /dev/null
+  ssh -p '{{ acia_ssh_port }}' '{{ acia_login_user }}@{{ acia_vagrant_host }}' ansible-ci-vagrant destroy 1> /dev/null
   echo '< ...done >'
 fi
 

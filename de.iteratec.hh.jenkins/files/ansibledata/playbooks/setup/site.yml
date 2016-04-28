@@ -6,5 +6,6 @@
     - /example_config/aci.yml
     - /example_config/repositories.yml
     - /example_config/agents.yml
+    - /example_config/agent_user.yml
   roles:
     - de.iteratec.hh.ansible-ci

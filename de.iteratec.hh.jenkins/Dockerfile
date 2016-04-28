@@ -14,9 +14,7 @@ RUN apt-get update && \
     apt-get clean && \
     apt-get autoremove
 
-RUN cd / && \
-    git clone git://github.com/ansible/ansible.git --recursive
-RUN pip install paramiko PyYAML Jinja2 httplib2 six markupsafe docker-py ansible-lint
+RUN pip install paramiko PyYAML Jinja2 httplib2 six markupsafe ansible docker-py ansible-lint
 RUN gem install serverspec
 
 # install jenkins plugins
@@ -27,17 +25,12 @@ COPY files/system/start.sh /usr/local/bin/start.sh
 COPY files/system/get-public-key /usr/local/bin/get-public-key
 COPY files/system/deploy-agents /usr/local/bin/deploy-agents
 COPY files/system/deploy-prelive /usr/local/bin/deploy-prelive
-COPY files/mod_ansible/profile_tasks.py /ansible/lib/ansible/plugins/callback/profile_tasks.py
+COPY files/mod_ansible/profile_tasks.py /usr/local/lib/python2.7/dist-packages/ansible/plugins/callback/profile_tasks.py
 
 RUN mkdir /etc/ansible && \
     echo 'localhost ansible_connection=local' >> /etc/ansible/hosts
 
 # make all static preparations not necessary in Ansible
-
-# checkout Ansible version to work with
-RUN cd /ansible && \
-    git reset --hard 2790929e73 && \
-    git submodule update
 
 # copy static AnsibleCI content
 COPY files/jenkinsdata/jenkins_home /usr/share/jenkins/ref
@@ -58,7 +51,7 @@ RUN chown -R jenkins:jenkins /ansible && \
     chmod 0755 /usr/local/bin/get-public-key && \
     chmod 0755 /usr/local/bin/deploy-agents && \
     chmod 0755 /usr/local/bin/deploy-prelive && \
-    chmod 0644 /ansible/lib/ansible/plugins/callback/profile_tasks.py
+    chmod 0644 /usr/local/lib/python2.7/dist-packages/ansible/plugins/callback/profile_tasks.py
 
 ENTRYPOINT ["/usr/local/bin/start.sh"]
 
