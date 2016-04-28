@@ -1,5 +1,11 @@
 #!/bin/bash
 
+if [[ $(docker inspect -f "{{ .State.Paused }}" aci 2>/dev/null) ]]; then
+  echo 'ACI container already exists. Starting...'
+  docker start aci
+  exit
+fi
+
 set -e
 
 repolabel=default
@@ -64,7 +70,6 @@ done
 docker run -d \
   --name aci \
   -p 8081:8080 \
-  --restart always \
   -e "ANSIBLE_VAULT_PASSWORD=$avp" \
   -e "ACIA_LOGIN_USER=$agentuser" \
   -v "$(pwd)/clientconfig":/ansible_config \
