@@ -25,9 +25,13 @@
     <com.cloudbees.plugins.credentials.UserCredentialsProvider_-UserCredentialsProperty plugin="credentials@1.24">
       <domainCredentialsMap class="hudson.util.CopyOnWriteMap$Hash"/>
     </com.cloudbees.plugins.credentials.UserCredentialsProvider_-UserCredentialsProperty>
+    {% if aci_install_type == 'server' %}
     <hudson.security.HudsonPrivateSecurityRealm_-Details>
       <passwordHash>{{ lookup('password', '/tmp/testvar chars=ascii_letters,digits length=8') + ':' + (ACI_ADMIN_PASSWORD + '{' + lookup('password', '/tmp/testvar chars=ascii_letters,digits length=8') + '}')|hash('sha256') }}</passwordHash>
     </hudson.security.HudsonPrivateSecurityRealm_-Details>
+    {% else %}
+    <hudson.security.HudsonPrivateSecurityRealm_-Details/>
+    {% endif %}
     <hudson.tasks.Mailer_-UserProperty plugin="mailer@1.16">
       <emailAddress>{{ aci_admin_email }}</emailAddress>
     </hudson.tasks.Mailer_-UserProperty>

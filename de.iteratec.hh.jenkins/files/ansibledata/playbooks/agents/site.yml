@@ -1,0 +1,15 @@
+---
+- name: setup AnsibleCI Agents
+  hosts: agents
+  vars_files:
+    - /example_config/vault.yml
+    - /example_config/agents.yml
+  vars_prompt:
+  - name: ansible_user
+    prompt: "SSH user for connecting to target host"
+  - name: ansible_become_pass
+    prompt: "SUDO password for the user"
+    private: yes
+  remote_user: "{{ ansible_user }}"
+  roles:
+    - de.iteratec.hh.ansible-ci-agent

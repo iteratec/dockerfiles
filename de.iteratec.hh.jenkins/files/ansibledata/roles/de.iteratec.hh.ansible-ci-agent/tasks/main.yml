@@ -26,7 +26,7 @@
 - name: add authorized_key for ansible-ci server on vagrant host
   authorized_key:
     user: "{{ ansible_user_id }}"
-    key: "{{ ID_RSA_VAGRANT_PUB }}"
+    key: "{{ ACI_PUBLIC_KEY }}"
 
 - name: create working directory
   file:
@@ -43,7 +43,7 @@
 
 - name: create vagrants authorized_keys file for virtual machines
   copy:
-    content: "{{ ID_RSA_VAGRANT_PUB }}"
+    content: "{{ ACI_PUBLIC_KEY }}"
     dest: "{{ WORKING_DIRECTORY }}/vagrant_authorized_key"
     mode: 0740
 

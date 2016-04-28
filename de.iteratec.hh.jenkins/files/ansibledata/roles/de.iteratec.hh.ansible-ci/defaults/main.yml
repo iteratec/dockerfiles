@@ -94,3 +94,6 @@ aci_repository:
 aci_repository_global_user_name: AnsibleCI Admin
 # Die E-Mail-Adresse, die AnsibleCI gegenüber dem Git Repository einnimmt
 aci_repository_global_user_email: "{{ aci_admin_email }}"
+
+# vault variable defaults
+PASSWORDS: []

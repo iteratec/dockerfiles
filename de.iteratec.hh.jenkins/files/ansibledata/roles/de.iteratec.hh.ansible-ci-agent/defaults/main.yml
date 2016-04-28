@@ -1,5 +1,4 @@
 ---
-acia_server_domain: localhost
 # The Vagrant Box used for the tests
 acia_vagrant_box: ubuntu/trusty64
 # the definitive SSH port to the ACIA vagrant machine

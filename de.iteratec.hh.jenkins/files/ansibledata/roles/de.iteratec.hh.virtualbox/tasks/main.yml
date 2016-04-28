@@ -1,0 +1,30 @@
+---
+- name: install kernel headers as prerequisites
+  become: yes
+  shell: "echo $LANG; apt-get install -y linux-headers-$(uname -r)"
+  environment:
+    LANG: en_US.UTF-8
+    LANGUAGE: en_US.UTF-8
+  register: result
+  changed_when: "'0 upgraded' not in result.stdout and '0 newly installed' not in result.stdout"
+
+- name: check if virtualbox is running
+  command: ps ax
+  register: pscommand
+  changed_when: false
+
+- name: create working dir
+  file:
+    path: "{{ WORKDIR }}"
+    state: directory
+
+- name: download virtualbox
+  get_url:
+    url: "{{ DOWNLOAD_URL }}"
+    dest: "{{ WORKDIR }}/{{ DOWNLOAD_PACKAGE }}"
+
+- name: install download package
+  become: yes
+  apt:
+    deb: "{{ WORKDIR }}/{{ DOWNLOAD_PACKAGE }}"
+  when: pscommand.stdout.find('VBoxHeadless') == -1

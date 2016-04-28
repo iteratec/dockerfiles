@@ -21,9 +21,10 @@
 
 - name: jenkins private key for vagrant
   copy:
-    content: "{{ ID_RSA_VAGRANT }}"
+    content: "{{ ACI_PRIVATE_KEY }}"
     dest: /var/jenkins_home/.ssh/id_rsa
     mode: 0600
+  when: "{{ ACI_PRIVATE_KEY is defined }}"
 
 - name: copy jenkins private key for repositories
   copy:

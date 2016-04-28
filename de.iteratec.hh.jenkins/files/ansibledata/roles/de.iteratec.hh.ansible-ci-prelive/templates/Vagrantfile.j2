@@ -11,6 +11,6 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: <<-SHELL
     addgroup docker
     usermod -G docker vagrant
-    echo '{{ ID_RSA_VAGRANT_PUB }}' >> /home/vagrant/.ssh/authorized_keys
+    echo '{{ ACI_PUBLIC_KEY }}' >> /home/vagrant/.ssh/authorized_keys
   SHELL
 end
