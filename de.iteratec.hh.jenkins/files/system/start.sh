@@ -2,6 +2,11 @@
 
 set -e
 
+if [[ $1 == 'get-local-start-script' ]]; then
+  cat /tools/local_client_setup.sh
+  exit
+fi
+
 if [[ -z $ACIA_LOGIN_USER ]]; then
   echo "You must set the ACIA_LOGIN_USER variable with the name of the user logging into the ACI Agents machine."
   exit 1
