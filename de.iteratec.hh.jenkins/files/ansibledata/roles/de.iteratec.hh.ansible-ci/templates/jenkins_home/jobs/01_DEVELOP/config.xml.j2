@@ -243,7 +243,6 @@ multiJob(&apos;02_RUN_PIPELINE_{{ item.name }}&apos;) {
               phaseJob(&apos;TP_{{ item.name }}_&apos; + file.getName()){
                 configure { node -&gt;
                   node &lt;&lt; {
-                    buildOnlyIfSCMChanges(true)
                     currParams(false)
                     killPhaseOnJobResultCondition(&apos;NEVER&apos;)
                   }

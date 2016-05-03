@@ -1,5 +1,5 @@
 FROM java:openjdk-7-jdk
-MAINTAINER Hauke Mettendorf <hauke.mettendorf@iteratec.de>
+MAINTAINER hauke.mettendorf & thomas.steinbach @ iteratec.de
 
 ENV ITERAPLAN_URL http://www.iteraplan.de/download/iteraplan-lite-edition/?wpdmdl=1409
 ENV ITERAPLAN_HOME /opt/iteraplan
@@ -16,7 +16,7 @@ RUN DEBIAN_FRONTEND=noninteractive && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN (cd /tmp && \
-    wget $ITERAPLAN_URL -O iteraplan.zip) 
+    wget $ITERAPLAN_URL -O iteraplan.zip)
 
 RUN (cd /tmp && \
     unzip -q iteraplan.zip && \
@@ -31,9 +31,8 @@ COPY config/tomcat-users.xml /opt/iteraplan/tomcat/conf/tomcat-users.xml
 COPY config/probe-2.4.0/probe.war /opt/iteraplan/tomcat/webapps/probe.war
 
 # Copy iteraplan to ROOT context
-RUN rm -R /opt/iteraplan/tomcat/webapps/ROOT/* && \
-    mv /opt/iteraplan/tomcat/webapps/iteraplan/* /opt/iteraplan/tomcat/webapps/ROOT/ && \
-    rm -R /opt/iteraplan/tomcat/webapps/iteraplan
+RUN rm -R /opt/iteraplan/tomcat/webapps/ROOT && \
+    mv /opt/iteraplan/tomcat/webapps/iteraplan /opt/iteraplan/tomcat/webapps/ROOT
 
 RUN (chmod a+x /opt/iteraplan/*.sh  && \
      chmod a+x /opt/iteraplan/tomcat/bin/*.sh)
