@@ -7,15 +7,15 @@ if [[ $1 == 'get-local-start-script' ]]; then
   exit
 fi
 
-if [[ -z $ACIA_LOGIN_USER ]]; then
-  echo "You must set the ACIA_LOGIN_USER variable with the name of the user logging into the ACI Agents machine."
-  exit 1
-fi
-
 /usr/local/bin/jenkins.sh date # pass 'date' to suppress startup of jenkins
 
 # if `docker run` first argument start with `--` the user is passing jenkins launcher arguments
 if [[ $# -lt 1 ]] || [[ "$1" == "--"* ]]; then
+
+  if [[ -z $ACIA_LOGIN_USER ]]; then
+    echo "You must set the ACIA_LOGIN_USER variable with the name of the user logging into the ACI Agents machine."
+    exit 1
+  fi
 
   if [[ $(ls /ansible_config/) ]]; then
     cp /ansible_config/* /example_config

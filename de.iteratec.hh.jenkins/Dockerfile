@@ -5,17 +5,32 @@ USER root
 
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
-      python-pip \
       python-dev \
+      python-pip \
       git \
       ruby \
       ruby-dev \
-      rake && \
+      rake \
+      apt-transport-https && \
+    apt-key adv \
+      --keyserver hkp://p80.pool.sks-keyservers.net:80 \
+      --recv-keys 58118E89F3A912897C070ADBF76221572C52609D && \
+    echo 'deb https://apt.dockerproject.org/repo debian-jessie main' > /etc/apt/sources.list.d/docker.list && \
+    apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y docker-engine && \
     apt-get clean && \
     apt-get autoremove
 
 RUN gem install serverspec
-RUN pip install paramiko PyYAML Jinja2 httplib2 six markupsafe ansible docker-py ansible-lint
+RUN pip install paramiko==1.16.0 \
+                PyYAML==3.11 \
+                Jinja2==2.8 \
+                httplib2==0.9.2 \
+                six==1.8.0 \
+                markupsafe==0.23 \
+                ansible==2.0.2.0 \
+                docker-py==1.8.0 \
+                ansible-lint==2.6.2
 
 # install required Jenkins PlugIns
 COPY files/mod_jenkins/plugins.txt /usr/share/jenkins/plugins.txt
