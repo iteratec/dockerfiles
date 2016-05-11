@@ -1,8 +1,0 @@
----
-WORKDIR: "{{ ansible_user_dir }}/.ansible-data/de.iteratec.hh.virtualbox"
-
-OS_BITS: "{{ansible_userspace_bits |replace('64', 'amd64') |replace('32', 'i386')}}"
-# e.g.: virtualbox-5.0_5.0.14-105127~Debian~jessie_amd64.deb
-DOWNLOAD_PACKAGE: "virtualbox-{{ vbox_version_major }}_{{ vbox_version_major }}.{{ vbox_version_minor }}-{{ vbox_version_sub }}~{{ ansible_distribution }}~{{ ansible_distribution_release }}_{{ OS_BITS }}.deb"
-# e.g.: http://download.virtualbox.org/virtualbox/5.0.14/virtualbox-5.0_5.0.14-105127~Debian~jessie_amd64.deb
-DOWNLOAD_URL: "http://download.virtualbox.org/virtualbox/{{ vbox_version_major }}.{{ vbox_version_minor }}/{{ DOWNLOAD_PACKAGE }}"
