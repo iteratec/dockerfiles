@@ -7,6 +7,7 @@ RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
       python-dev \
       python-pip \
+      python-apt \
       git \
       ruby \
       ruby-dev \
