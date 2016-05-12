@@ -11,7 +11,7 @@
     dest: "{{ ansible_env.HOME }}/.ansible-data/vagrant/vagrant_{{ vagrant_version }}_x86_64.deb"
 
 - name: install vagrant
-  sudo: yes
+  become: yes
   apt:
    deb: "{{ ansible_env.HOME }}/.ansible-data/vagrant/vagrant_{{ vagrant_version }}_x86_64.deb"
    state: present

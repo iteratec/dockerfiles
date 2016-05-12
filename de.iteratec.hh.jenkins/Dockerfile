@@ -56,6 +56,14 @@ COPY files/ansibledata /ansible_data
 RUN mkdir /ansible_config /example_config
 COPY files/exampleconfig /example_config
 
+# create empty config stubs
+RUN mkdir /used_config && \
+    touch /used_config/aci.yml && \
+    touch /used_config/agents.yml && \
+    touch /used_config/prelive.yml && \
+    touch /used_config/repositories.yml && \
+    touch /used_config/vault.yml
+
 # copy system and tool scripts
 COPY files/system/start.sh /usr/local/bin/start.sh
 COPY files/system/get-public-key /usr/local/bin/get-public-key
@@ -64,7 +72,7 @@ COPY files/system/deploy-prelive /usr/local/bin/deploy-prelive
 COPY files/tools/local_client_setup.sh /tools/local_client_setup.sh
 
 # set rights and permissions
-RUN chown -R jenkins:jenkins /example_config && \
+RUN chown -R jenkins:jenkins /used_config && \
     chmod 0755 /usr/local/bin/start.sh && \
     chmod 0755 /usr/local/bin/get-public-key && \
     chmod 0755 /usr/local/bin/deploy-agents && \

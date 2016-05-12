@@ -54,7 +54,7 @@
     mode: 0440
 
 - name: copy ansible-ci-vagrant script
-  sudo: yes
+  become: yes
   template:
     src: ansible-ci-vagrant.j2
     dest: /usr/local/bin/ansible-ci-vagrant

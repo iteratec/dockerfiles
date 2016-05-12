@@ -1,6 +1,8 @@
 ---
 # The Vagrant Box used for the tests
 acia_vagrant_box: ubuntu/trusty64
+# The amount of RAM the VM uses
+acia_vagrant_memory: 3072
 # the definitive SSH port to the ACIA vagrant machine
 acia_vagrant_port: 62822
 # the network part of the vagrant ip

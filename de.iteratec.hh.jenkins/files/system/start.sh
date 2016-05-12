@@ -2,6 +2,11 @@
 
 set -e
 
+# update used configuration
+if [[ $(ls /ansible_config/) ]]; then
+  cp /ansible_config/* /used_config
+fi
+
 if [[ $1 == 'get-local-start-script' ]]; then
   cat /tools/local_client_setup.sh
   exit
@@ -17,11 +22,7 @@ if [[ $# -lt 1 ]] || [[ "$1" == "--"* ]]; then
     exit 1
   fi
 
-  if [[ $(ls /ansible_config/) ]]; then
-    cp /ansible_config/* /example_config
-  fi
-
-  echo "acia_login_user: $ACIA_LOGIN_USER" > /example_config/agent_user.yml
+  echo "acia_login_user: $ACIA_LOGIN_USER" > /used_config/agent_user.yml
 
   echo "$ANSIBLE_VAULT_PASSWORD" > /tmp/ansible_vaultpass
   cd /ansible_data/playbooks/setup
