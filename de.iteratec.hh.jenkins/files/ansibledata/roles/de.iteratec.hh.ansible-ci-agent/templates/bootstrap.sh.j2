@@ -15,3 +15,6 @@ echo "vagrant ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/90-vagrant-nopass
 # temporary workaround for https://github.com/ansible/ansible-modules-core/issues/2488
 addgroup docker
 usermod -G docker vagrant
+
+# update cache to avoid problems with unauthenticated packages
+apt-get update

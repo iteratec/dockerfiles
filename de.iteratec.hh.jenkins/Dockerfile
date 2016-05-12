@@ -8,6 +8,7 @@ RUN apt-get update && \
       python-dev \
       python-pip \
       python-apt \
+      python-docker \
       git \
       ruby \
       ruby-dev \
@@ -64,9 +65,15 @@ RUN mkdir /used_config && \
     touch /used_config/repositories.yml && \
     touch /used_config/vault.yml
 
+# copy default inventory files
+COPY files/exampleconfig/aci.inventory /used_config/aci.inventory
+COPY files/exampleconfig/agents.inventory /used_config/agents.inventory
+COPY files/exampleconfig/prelive.inventory /used_config/prelive.inventory
+
 # copy system and tool scripts
 COPY files/system/start.sh /usr/local/bin/start.sh
 COPY files/system/get-public-key /usr/local/bin/get-public-key
+COPY files/system/deploy-aci /usr/local/bin/deploy-aci
 COPY files/system/deploy-agents /usr/local/bin/deploy-agents
 COPY files/system/deploy-prelive /usr/local/bin/deploy-prelive
 COPY files/tools/local_client_setup.sh /tools/local_client_setup.sh
@@ -75,6 +82,7 @@ COPY files/tools/local_client_setup.sh /tools/local_client_setup.sh
 RUN chown -R jenkins:jenkins /used_config && \
     chmod 0755 /usr/local/bin/start.sh && \
     chmod 0755 /usr/local/bin/get-public-key && \
+    chmod 0755 /usr/local/bin/deploy-aci && \
     chmod 0755 /usr/local/bin/deploy-agents && \
     chmod 0755 /usr/local/bin/deploy-prelive && \
     chmod 0644 /usr/local/lib/python2.7/dist-packages/ansible/plugins/callback/profile_tasks.py
