@@ -1,17 +1,58 @@
 #!/bin/bash
 
+set -e
+
 if [[ $(docker inspect -f "{{ .State.Paused }}" aci 2>/dev/null) ]]; then
   echo 'ACI container already exists. Starting...'
   docker start aci
   exit
 fi
 
-set -e
-
-repolabel=default
-
 if [[ ! -d clientconfig ]]; then
-  mkdir clientconfig
+  echo 'It seems to be the first time running ACI at this workspace location:'
+  echo -e "\n\t$(pwd)\n"
+  read -p 'Do you want to create a new workspace in this directory? (y/n): ' -e -i 'n' createworkspace
+  if [[ "$createworkspace" != 'y' ]]; then
+    echo 'exiting...'
+    exit
+  else
+    mkdir clientconfig
+  fi
+fi
+
+if [[ ! -f clientconfig/repositories.yml ]]; then
+  clear
+  echo 'Configuration Check [..    ]'
+  echo ''
+  echo 'Your workspace did not contain a repository configuration, therefore a new one was created.'
+  echo 'The configuration contains information of how the repository is structured, meaning in'
+  echo ' which (sub) directories the roles and playbooks are located.'
+  echo 'The physical location of the repository is gathered in a later step.'
+  echo 'Please provide following information:'
+  echo ''
+  read -p ' An arbitrary but unique label identifying your repository: ' -e -i 'default' repolabel
+  read -p ' The relative subpath in the repo containing the roles (leave blank if root or none): ' rolespath
+  read -p ' The relative subpath in the repo containing the playbooks (leave blank if root or none): ' playbookspath
+
+  echo -e "---\naci_repository:" > clientconfig/repositories.yml
+  echo "  - name: $repolabel" >> clientconfig/repositories.yml
+  if [[ $rolespath ]]; then echo "    subpath_roles: $rolespath" >> clientconfig/repositories.yml; fi
+  if [[ $playbookspath ]]; then echo "    subpath_playbooks: $playbookspath" >> clientconfig/repositories.yml; fi
+else
+  repolabel="$(grep name clientconfig/repositories.yml | cut -c 11-)"
+fi
+
+if [[ -f clientconfig/conf_repository_path ]]; then
+  repopath="$(cat clientconfig/conf_repository_path)"
+else
+  clear
+  echo 'Configuration Check [....  ]'
+  echo ''
+  echo "ACI needs to know the local location of your repository with the label '$repolabel'."
+  echo 'This information is machine specific, thus being automatically added to .gitignore.'
+  echo ''
+  read -p ' The absolute path to your local Ansible repository clone: ' -e -i "$HOME" repopath
+  echo "$repopath" > clientconfig/conf_repository_path
 fi
 
 if [[ ! -f clientconfig/vault.yml ]]; then
@@ -24,54 +65,32 @@ if [[ ! -f clientconfig/vault.yml ]]; then
   cat /tmp/aci_key.pub >> ~/.ssh/authorized_keys
   rm /tmp/aci_key /tmp/aci_key.pub
 
+  clear
+  echo 'Configuration Check [......]'
   echo ''
-  echo 'It is the first time you are running ACI with this configuration. I have added a private vault file to your configuration, containing a couple of secrets unique for this ACI instance. Following you have to provide a password which you will be asked for every start of a new Docker container on this configuration. So please remember this password.'
+  echo 'Your workspace did not contain a vault file, therefore a new one was created.'
+  echo 'This is an encrypted file containing unique and secret information for this ACI instance.'
+  echo 'This information is machine specific, thus being automatically added to .gitignore.'
+  echo 'Please provide the Vault Password.'
+  echo 'You will be asked for this password whenever you start ACI from this workspace.'
+  echo ''
   ansible-vault encrypt clientconfig/vault.yml
 fi
 
-if [[ ! -f clientconfig/repositories.yml ]]; then
-  echo ''
-  echo 'I see you have no repositories set up. Let us do this quickly.'
-  read -p 'With label should your repository have? ' -e -i 'default' repolabel
-  read -p 'In which subpath are your roles in? (leave blank if none) ' rolespath
-  read -p 'In which subpath are your playbooks in? (leave blank if none) ' playbookspath
-
-  echo -e "---\naci_repository:" > clientconfig/repositories.yml
-  echo "  - name: $repolabel" >> clientconfig/repositories.yml
-  if [[ $rolespath ]]; then echo "    subpath_roles: $rolespath" >> clientconfig/repositories.yml; fi
-  if [[ $playbookspath ]]; then echo "    subpath_playbooks: $playbookspath" >> clientconfig/repositories.yml; fi
-else
-  repolabel="$(grep name clientconfig/repositories.yml | cut -c 11-)"
-fi
-
-echo ''
-echo 'Starting ACI with...'
-read -s -p 'Vault Password:' avp && echo ''
-
-if [[ -f clientconfig/conf_repository_path ]]; then
-  repopath="$(cat clientconfig/conf_repository_path)"
-else
-  read -e -p 'The absolute path to your local ansible-infrastructure repository:' repopath
-  echo "$repopath" > clientconfig/conf_repository_path
-fi
-
-if [[ -f clientconfig/conf_agent_user ]]; then
-  agentuser="$(cat clientconfig/conf_agent_user)"
-else
-  read -p 'The user ACI should use to login on the agents machine (normally your user name): ' agentuser
-  echo "$agentuser" > clientconfig/conf_agent_user
-fi
-
 # update .gitignore
-for file in vault.yml conf_repository_path conf_agent_user; do
+for file in vault.yml conf_repository_path; do
   grep -q -F "clientconfig/$file" .gitignore || echo "clientconfig/$file" >> .gitignore
 done
+
+clear
+echo 'Starting ACI with...'
+read -s -p 'Vault Password:' avp && echo ''
 
 docker run -d \
   --name aci \
   -p 8081:8080 \
   -e "ANSIBLE_VAULT_PASSWORD=$avp" \
-  -e "ACIA_LOGIN_USER=$agentuser" \
+  -e "ACIA_LOGIN_USER=$(whoami)" \
   -v "$(pwd)/clientconfig":/ansible_config \
   -v "$repopath:/var/jenkins_home/workspace/develop/$repolabel" \
   iteratechh/jenkins 1>/dev/null
