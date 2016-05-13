@@ -48,5 +48,6 @@ ENV PATH ${PATH}:${JAVA_HOME}/bin
 COPY osm-wpt-overview-map-0.2.jar /osm/osm-wpt-overview-map-0.2.jar
 
 EXPOSE 4567
+EXPOSE 4568
 
 ENTRYPOINT cd /osm && java -jar /osm/osm-wpt-overview-map-0.2.jar
