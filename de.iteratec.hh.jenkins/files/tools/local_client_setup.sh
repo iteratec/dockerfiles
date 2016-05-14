@@ -21,6 +21,9 @@ if [[ ! -d clientconfig ]]; then
 fi
 
 if [[ ! -f clientconfig/repositories.yml ]]; then
+
+  echo -e "---\naci_repository:" > clientconfig/repositories.yml
+
   clear
   echo 'Configuration Check [..    ]'
   echo ''
@@ -29,31 +32,55 @@ if [[ ! -f clientconfig/repositories.yml ]]; then
   echo ' which (sub) directories the roles and playbooks are located.'
   echo 'The physical location of the repository is gathered in a later step.'
   echo 'Please provide following information:'
-  echo ''
-  read -p ' An arbitrary but unique label identifying your repository: ' -e -i 'default' repolabel
-  read -p ' The relative subpath in the repo containing the roles (leave blank if root or none): ' rolespath
-  read -p ' The relative subpath in the repo containing the playbooks (leave blank if root or none): ' playbookspath
 
-  echo -e "---\naci_repository:" > clientconfig/repositories.yml
-  echo "  - name: $repolabel" >> clientconfig/repositories.yml
-  if [[ $rolespath ]]; then echo "    subpath_roles: $rolespath" >> clientconfig/repositories.yml; fi
-  if [[ $playbookspath ]]; then echo "    subpath_playbooks: $playbookspath" >> clientconfig/repositories.yml; fi
-else
-  repolabel="$(grep name clientconfig/repositories.yml | cut -c 11-)"
+  addNextRepo=true
+  while [[ $addNextRepo = 'true' ]]; do
+    unset repolabel
+    unset rolespath
+    unset playbookspath
+    unset rolesfrom
+    echo ''
+    read -p ' An arbitrary but unique label identifying your repository: ' -e -i 'default' repolabel
+    read -p ' The relative subpath in the repo containing the roles (leave blank if root or none): ' rolespath
+    read -p ' The relative subpath in the repo containing the playbooks (leave blank if root or none): ' playbookspath
+    read -p ' A list of repository labels to gather roles from (leave blank if none): ' rolesfrom
+
+    echo "  - name: $repolabel" >> clientconfig/repositories.yml
+    if [[ $rolespath ]]; then echo "    subpath_roles: $rolespath" >> clientconfig/repositories.yml; fi
+    if [[ $playbookspath ]]; then echo "    subpath_playbooks: $playbookspath" >> clientconfig/repositories.yml; fi
+
+    if [[ ! -z "$rolesfrom" ]]; then
+      echo "    roles_path_from:" >> clientconfig/repositories.yml
+      for label in $rolesfrom; do
+        echo "      - $label" >> clientconfig/repositories.yml
+      done
+    fi
+
+    read -p ' Would you add one more repository? (y/n): ' -e -i 'n' oneMoreRepo
+    if [[ "$oneMoreRepo" != 'y' ]]; then
+      addNextRepo=false
+    fi
+  done
 fi
 
-if [[ -f clientconfig/conf_repository_path ]]; then
-  repopath="$(cat clientconfig/conf_repository_path)"
-else
+if [[ ! -f clientconfig/conf_repository_path ]]; then
   clear
   echo 'Configuration Check [....  ]'
   echo ''
-  echo "ACI needs to know the local location of your repository with the label '$repolabel'."
+  echo "ACI needs to know the local locations of your repositories."
   echo 'This information is machine specific, thus being automatically added to .gitignore.'
   echo ''
-  read -p ' The absolute path to your local Ansible repository clone: ' -e -i "$HOME" repopath
-  echo "$repopath" > clientconfig/conf_repository_path
+  touch clientconfig/conf_repository_path
 fi
+
+# collect the local paths to the repos
+for repo in $(grep 'name: ' clientconfig/repositories.yml | cut -c 11-); do
+  set +e; grep -q "/var/jenkins_home/workspace/develop/$repo" clientconfig/conf_repository_path; rc=$?; set -e
+  if [[ $rc != 0 ]]; then
+    read -p " Please provide the absolute path to the repository with the label '${repo}': " -e -i "${HOME}/" repopath
+    echo "-v $repopath:/var/jenkins_home/workspace/develop/$repo" >> clientconfig/conf_repository_path
+  fi
+done
 
 if [[ ! -f clientconfig/vault.yml ]]; then
   echo "PKI_PASSWORD: $(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)" > clientconfig/vault.yml
@@ -77,7 +104,9 @@ if [[ ! -f clientconfig/vault.yml ]]; then
   ansible-vault encrypt clientconfig/vault.yml
 fi
 
-# update .gitignore
+# create .gitignore
+if [[ ! -f .gitignore ]]; then touch .gitignore; fi
+# add files to .gitignore if not already present
 for file in vault.yml conf_repository_path; do
   grep -q -F "clientconfig/$file" .gitignore || echo "clientconfig/$file" >> .gitignore
 done
@@ -92,7 +121,7 @@ docker run -d \
   -e "ANSIBLE_VAULT_PASSWORD=$avp" \
   -e "ACIA_LOGIN_USER=$(whoami)" \
   -v "$(pwd)/clientconfig":/ansible_config \
-  -v "$repopath:/var/jenkins_home/workspace/develop/$repolabel" \
+  $(cat clientconfig/conf_repository_path) \
   iteratechh/jenkins 1>/dev/null
 
 echo ''

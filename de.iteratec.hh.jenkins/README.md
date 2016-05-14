@@ -7,7 +7,7 @@ This is a library/jenkins with an additional Ansible installed. It is used for a
 Run the following instructions and follow the instructions.
 
 ```
-d run --rm iteratechh/jenkins get-local-start-script > aci_local.sh
+docker run --rm iteratechh/jenkins get-local-start-script > aci_local.sh
 chmod +x aci_local.sh
 ./aci_local.sh
 ```
