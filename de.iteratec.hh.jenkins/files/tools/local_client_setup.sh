@@ -84,6 +84,7 @@ done
 
 if [[ ! -f clientconfig/vault.yml ]]; then
   echo "PKI_PASSWORD: $(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)" > clientconfig/vault.yml
+
   echo 'ACI_PRIVATE_KEY: |' >> clientconfig/vault.yml
   ssh-keygen -t rsa -C 'AnsibleCI' -N '' -f /tmp/aci_key 1>/dev/null
   cat /tmp/aci_key | sed 's/^/  /' >> clientconfig/vault.yml
@@ -91,6 +92,12 @@ if [[ ! -f clientconfig/vault.yml ]]; then
 
   cat /tmp/aci_key.pub >> ~/.ssh/authorized_keys
   rm /tmp/aci_key /tmp/aci_key.pub
+
+  echo 'ACIA_PRIVATE_KEY: |' >> clientconfig/vault.yml
+  ssh-keygen -t rsa -C 'ACIAgent' -N '' -f /tmp/acia_key 1>/dev/null
+  cat /tmp/acia_key | sed 's/^/  /' >> clientconfig/vault.yml
+  echo "ACIA_PUBLIC_KEY: $(cat /tmp/acia_key.pub)" >> clientconfig/vault.yml
+  rm /tmp/acia_key /tmp/acia_key.pub
 
   clear
   echo 'Configuration Check [......]'

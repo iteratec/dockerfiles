@@ -40,11 +40,17 @@
     - Vagrantfile
     - bootstrap.sh
 
-- name: create vagrants authorized_keys file for virtual machines
+- name: create vagrants authorized_keys to allow access from ACI server
   copy:
     content: "{{ ACI_PUBLIC_KEY }}"
     dest: "{{ WORKING_DIRECTORY }}/vagrant_authorized_key"
-    mode: 0740
+    mode: 0640
+
+- name: create dedicated SSH private key for VM
+  copy:
+    content: "{{ ACIA_PRIVATE_KEY }}"
+    dest: "{{ WORKING_DIRECTORY }}/id_rsa"
+    mode: 0600
 
 - name: copy docker mirror CA certificate to vagrant directory
   copy:
