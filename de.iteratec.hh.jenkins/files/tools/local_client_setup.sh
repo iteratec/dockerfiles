@@ -3,8 +3,30 @@
 set -e
 
 if [[ $(docker inspect -f "{{ .State.Paused }}" aci 2>/dev/null) ]]; then
+
+  mustDeployAgents=false
+
+  if [[ $(docker inspect -f "{{ .State.Paused }}" squid-deb-proxy 2>/dev/null) ]]; then
+    docker start squid-deb-proxy
+  else
+    mustDeployAgents=true
+  fi
+
+  if [[ $(docker inspect -f "{{ .State.Paused }}" docker-mirror 2>/dev/null) ]]; then
+    docker start docker-mirror
+  else
+    mustDeployAgents=true
+  fi
+
   echo 'ACI container already exists. Starting...'
   docker start aci
+
+  if [[ "$mustDeployAgents" = 'true' ]]; then
+    echo 'However your agent is not fully running, so you have to run following command again:'
+    echo ''
+    echo '    docker exec -it aci deploy-agents'
+  fi
+
   exit
 fi
 
