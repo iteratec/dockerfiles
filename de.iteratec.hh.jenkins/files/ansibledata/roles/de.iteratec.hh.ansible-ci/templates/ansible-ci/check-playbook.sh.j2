@@ -278,8 +278,9 @@ python "${BASEDIR}/create-test-playbook.py" "$PLAYBOOKFILE"
 # set correct roles_path in ansible.cfg
 if [[ -f ansible.cfg ]]; then
   cp ansible.cfg ansible.cfg.bak
-  sed -i "s@^roles_path.*@roles_path = ${ROLES_PATH}@g" ansible.cfg
-  sed -i "s/^inventory.*/inventory = inventory/g" ansible.cfg
+  # replace lines if existent or append to file
+  grep -q '^roles_path' ansible.cfg && sed -i "s@^roles_path.*@roles_path = ${ROLES_PATH}@g" ansible.cfg || echo -e "\nroles_path = ${ROLES_PATH}" >> ansible.cfg
+  grep -q '^inventory' ansible.cfg && sed -i "s/^inventory.*/inventory = inventory/g" ansible.cfg || echo -e "\ninventory = inventory" >> ansible.cfg
 else
   echo -e "[defaults]\nroles_path = ${ROLES_PATH}\ninventory = inventory" > ansible.cfg
 fi
