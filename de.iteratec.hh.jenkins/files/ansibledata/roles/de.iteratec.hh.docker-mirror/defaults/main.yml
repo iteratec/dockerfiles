@@ -1,4 +1,7 @@
 ---
+# restart policy of the docker container
+dmirror_restart_policy: always
+
 dmirror_domain: localhost
 dmirror_port: 5000
 

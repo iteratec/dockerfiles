@@ -20,7 +20,7 @@
     volumes:
       - "{{ SQUID_HOME }}/squid-deb-proxy.conf:/etc/squid-deb-proxy/squid-deb-proxy.conf"
     state: started
-    restart_policy: always
+    restart_policy: "{{ 'always' if aci_install_type == 'server' else 'no' }}"
 
 - name: add authorized_key for ansible-ci server on vagrant host
   authorized_key:

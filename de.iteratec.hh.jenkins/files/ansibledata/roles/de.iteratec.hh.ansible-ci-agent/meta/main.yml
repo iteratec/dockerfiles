@@ -3,6 +3,7 @@ dependencies:
   - role: de.iteratec.hh.common
   - role: de.iteratec.hh.vagrant
   - role: de.iteratec.hh.docker-mirror
+    dmirror_restart_policy: "{{ 'always' if aci_install_type == 'server' else 'no' }}"
     dmirror_home: "{{ DMIRROR_HOME }}"
     dmirror_domain: "{{ acia_vagrant_hostnet_netpart }}.1"
     dmirror_ip: "{{ acia_vagrant_hostnet_netpart }}.1"

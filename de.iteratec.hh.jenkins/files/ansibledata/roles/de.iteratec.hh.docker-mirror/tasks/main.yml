@@ -22,4 +22,4 @@
     volumes:
       - "{{ dmirror_home }}:/secret"
     state: started
-    restart_policy: always
+    restart_policy: "{{ dmirror_restart_policy }}"

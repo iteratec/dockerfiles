@@ -1,4 +1,9 @@
 ---
+
+# could be [server,development]
+# see documentation of ansible-ci role
+aci_install_type: development
+
 # The Vagrant Box used for the tests
 acia_vagrant_box: ubuntu/trusty64
 # The amount of RAM the VM uses
