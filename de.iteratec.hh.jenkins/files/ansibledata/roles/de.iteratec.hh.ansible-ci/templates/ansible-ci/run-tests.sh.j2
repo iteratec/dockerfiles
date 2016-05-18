@@ -18,7 +18,7 @@ ARTIFACTDIR="${WORKSPACE}/${ARTIFACTS_PATH}/${ARTIFACT_NAME}"
 cd $"${ARTIFACTDIR}"
 
 # determine if to check Role or Playbook
-if [[ -f site.yml && ! -d "${EXAMPLESDIRNAME}" ]]; then
+if [[ -f site.yml || -f aci/playbooks ]] && [[ ! -d "${EXAMPLESDIRNAME}" ]]; then
   CHECK_PLAYBOOK=true;
   EXAMPLESDIR="."
 elif [[ ! -f site.yml && -d "${EXAMPLESDIRNAME}" ]]; then
