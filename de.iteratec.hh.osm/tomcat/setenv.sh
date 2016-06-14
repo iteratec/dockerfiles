@@ -1,2 +1,0 @@
-JAVA_OPTS="-Dosm_config_location=/root/.grails/OpenSpeedMonitor-config.groovy"
-CATALINA_OPTS="-Djava.awt.headless=true -Dfile.encoding=UTF-8 -server -Xms512m -Xmx2048m -XX:NewSize=256m -XX:MaxNewSize=256m -XX:PermSize=256m -XX:MaxPermSize=256m -XX:+DisableExplicitGC"
