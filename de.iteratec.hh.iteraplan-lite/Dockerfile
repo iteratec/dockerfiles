@@ -15,17 +15,15 @@ RUN DEBIAN_FRONTEND=noninteractive && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN (cd /tmp && \
-    wget $ITERAPLAN_URL -O iteraplan.zip)
-
-RUN (cd /tmp && \
+RUN cd /tmp && \
+    wget $ITERAPLAN_URL -O iteraplan.zip && \
+    cd /tmp && \
     unzip -q iteraplan.zip && \
     mv /tmp/iteraplan* /opt/ && \
     cd /opt/iteraplan && \
-    ln -s apache-tomcat-* tomcat)
-
-RUN (rm /opt/iteraplan.zip && \
-    rm -rf /tmp/*)
+    ln -s apache-tomcat-* tomcat && \
+    rm /opt/iteraplan.zip && \
+    rm -rf /tmp/*
 
 COPY config/tomcat-users.xml /opt/iteraplan/tomcat/conf/tomcat-users.xml
 COPY config/probe-2.4.0/probe.war /opt/iteraplan/tomcat/webapps/probe.war

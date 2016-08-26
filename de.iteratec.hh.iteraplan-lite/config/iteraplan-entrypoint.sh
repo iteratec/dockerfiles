@@ -21,7 +21,7 @@ cd `dirname "$PRG"`
 if [ -d "Jre/Linux" ]; then
   # Use included JRE
   export JRE_HOME="Jre/Linux"
-  
+
   # Make JRE Scripts executable (were probably stored on a FAT file system and lost rights)
   chmod u+x Jre/Linux/bin/*
 else
@@ -48,7 +48,7 @@ else
 fi
 
 # Make Tomcat scripts executable (they come from a zip, so they aren't)
-chmod u+x apache-tomcat-7.0.39/bin/*.sh
+chmod u+x apache-tomcat-*/bin/*.sh
 
 # Set some variables for Tomcat
 export CATALINA_OPTS="-Xms128m -Xmx768m -XX:MaxPermSize=384m -Djava.util.Arrays.useLegacyMergeSort=true"
