@@ -23,7 +23,8 @@ RUN cd /tmp && \
     cd /opt/iteraplan && \
     ln -s apache-tomcat-* tomcat && \
     rm /opt/iteraplan.zip && \
-    rm -rf /tmp/*
+    rm -rf /tmp/* && \
+    ln -s /opt/iteraplan/apache-tomcat-7.0.68/ /opt/iteraplan/apache-tomcat
 
 COPY config/tomcat-users.xml /opt/iteraplan/tomcat/conf/tomcat-users.xml
 COPY config/probe-2.4.0/probe.war /opt/iteraplan/tomcat/webapps/probe.war
@@ -54,7 +55,7 @@ COPY config/supervisor/statsd_status_reporter.conf  /etc/supervisor/conf.d/stats
 
 # Volumes
 VOLUME /opt/iteraplan/hsqldb/data
-VOLUME /opt/iteraplan/apache-tomcat-7.0.39/logs
+VOLUME /opt/iteraplan/apache-tomcat/logs
 VOLUME /var/log/supervisor
 
 # Ports
