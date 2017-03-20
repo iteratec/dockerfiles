@@ -4,9 +4,13 @@ FROM alpine:3.2
 MAINTAINER Jakob Kuczewski
 
 # Install cURL
-RUN apk --update add curl ca-certificates tar && \
-    curl -Ls https://circle-artifacts.com/gh/andyshinn/alpine-pkg-glibc/6/artifacts/0/home/ubuntu/alpine-pkg-glibc/packages/x86_64/glibc-2.21-r2.apk > /tmp/glibc-2.21-r2.apk && \
-    apk add --allow-untrusted /tmp/glibc-2.21-r2.apk
+#RUN apk --update add curl ca-certificates tar && \
+#    curl -Ls https://circle-artifacts.com/gh/andyshinn/alpine-pkg-glibc/6/artifacts/0/home/ubuntu/alpine-pkg-glibc/packages/x86_64/glibc-2.21-r2.apk > /tmp/glibc-2.21-r2.apk && \
+#    apk add --allow-untrusted /tmp/glibc-2.21-r2.apk
+RUN apk --update add ca-certificates curl tar wget && \
+    wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://raw.githubusercontent.com/sgerrand/alpine-pkg-glibc/master/sgerrand.rsa.pub && \
+    wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.25-r0/glibc-2.25-r0.apk && \
+    apk add glibc-2.25-r0.apk
 
 # Java Version
 ENV JAVA_VERSION_MAJOR 8
