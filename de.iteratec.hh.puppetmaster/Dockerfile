@@ -1,15 +1,21 @@
-FROM centos:centos7
+FROM debian:7
 
 MAINTAINER infrastruktur-ham@iteratec.de
 
-ENV PUPPET_VERSION 3.7.3
+ENV DEBIAN_FRONTEND noninteractive
 
-RUN rpm --import https://yum.puppetlabs.com/RPM-GPG-KEY-puppetlabs && rpm -ivh http://yum.puppetlabs.com/puppetlabs-release-el-6.noarch.rpm
-RUN yum install -y yum-utils && yum-config-manager --enable centosplus >& /dev/null
-RUN yum install -y puppet-$PUPPET_VERSION
-RUN yum install -y puppet-server-$PUPPET_VERSION
-RUN yum clean all
-ADD puppet.conf /etc/puppet/puppet.conf
+RUN apt-get update && \
+    apt-get install -y wget apt-utils ca-certificates
+
+RUN wget https://apt.puppetlabs.com/puppetlabs-release-wheezy.deb && \
+  dpkg -i puppetlabs-release-wheezy.deb && \
+  apt-get update
+
+RUN apt-get install -y puppetserver=1.0.0-1puppetlabs1 && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+COPY puppet.conf /etc/puppet/puppet.conf
 
 VOLUME ["/opt/puppet"]
 
