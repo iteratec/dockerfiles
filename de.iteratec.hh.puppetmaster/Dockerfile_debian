@@ -20,13 +20,8 @@ RUN apt-get install -y puppetserver=1.0.0-1puppetlabs1 && \
 
 COPY puppet.conf /etc/puppet/puppet.conf
 
-VOLUME ["/opt/puppet"]
-
-RUN cp -rf /etc/puppet/* /opt/puppet/
-
-VOLUME ["/opt/varpuppet/lib/puppet"]
-
-RUN cp -rf /var/lib/puppet/* /opt/varpuppet/lib/puppet/
+VOLUME ["/etc/puppet"]
+VOLUME ["/var/lib/puppet"]
 
 EXPOSE 8140
 

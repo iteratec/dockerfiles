@@ -9,15 +9,11 @@ RUN yum install -y yum-utils && yum-config-manager --enable centosplus >& /dev/n
 RUN yum install -y puppet-$PUPPET_VERSION
 RUN yum install -y puppet-server-$PUPPET_VERSION
 RUN yum clean all
+
 ADD puppet.conf /etc/puppet/puppet.conf
 
-VOLUME ["/opt/puppet"]
-
-RUN cp -rf /etc/puppet/* /opt/puppet/
-
-VOLUME ["/opt/varpuppet/lib/puppet"]
-
-RUN cp -rf /var/lib/puppet/* /opt/varpuppet/lib/puppet/
+VOLUME ["/etc/puppet"]
+VOLUME ["/var/lib/puppet"]
 
 EXPOSE 8140
 
