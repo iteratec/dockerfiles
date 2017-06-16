@@ -18,7 +18,7 @@ ARG CHROME_DRIVER_VERSION=2.30
 RUN wget --no-verbose -O /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/chromedriver_linux64.zip \
     && unzip /tmp/chromedriver.zip -d /usr/bin/ \
     && chmod 755 /usr/bin/chromedriver \
-    && rm /tmp/chromedriver.zip
+    && rm /tmp/chromedriver.zip \
     && mkdir /data
 
 WORKDIR /data
